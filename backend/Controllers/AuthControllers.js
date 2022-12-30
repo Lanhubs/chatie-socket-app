@@ -2,7 +2,7 @@ const usersModel = require("../Model/usersModel");
 const bcrypt = require("bcrypt");
 const generateToken = require("./token");
 const multer = require("multer");
-const path = require("path");
+const path = require("path")
 const signupController = (req, res) => {
   var { userName, email, firstName, lastName, password } = req.body;
 

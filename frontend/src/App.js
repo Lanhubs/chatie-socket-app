@@ -8,6 +8,7 @@ function App() {
   return (
     <ChakraProvider>
       <Box w="100vw" h="100vh" bg="#fff">
+        
         <Router>
           <Routes>
             <Route path="/" element={<ChatScreen />} exact />

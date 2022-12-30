@@ -16,7 +16,7 @@ const messagesModel = db.define(
 messagesModel.hasMany(usersModel, {
   foreignKey: "id",
   as: "sender",
-});
+})
 messagesModel.hasMany(chatsModel, {
   foreignKey: "id",
   as: "chat",

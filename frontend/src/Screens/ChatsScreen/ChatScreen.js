@@ -16,11 +16,12 @@ const ChatScreen = () => {
   const {user, setUser}= useRecoilState(userInfo)
   useEffect(()=>{
     const userInfo = JSON.parse(localStorage.getItem("chatie"))
-    if(!userInfo){
+    setUser(userInfo)
+    if(userInfo === {}){
       navigate("/authentication")
     }
-    setUser(userInfo)
-  },[])
+    
+  },[user])
 
   return (
 
