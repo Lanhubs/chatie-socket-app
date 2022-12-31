@@ -12,11 +12,11 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 const Bars = () => {
-  const [userImage, setUserImage] = useState("")
-useEffect(()=>{
-  const img = JSON.parse(localStorage.getItem("chatie"))
-  setUserImage(img.profilePic)
-},[userImage])
+  const [userImage, setUserImage] = useState("");
+  useEffect(() => {
+    const img = JSON.parse(localStorage.getItem("chatie"));
+    setUserImage(img.profilePic);
+  }, [userImage]);
   return (
     <Box
       border={0}

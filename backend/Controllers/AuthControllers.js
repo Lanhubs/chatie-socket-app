@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const generateToken = require("./token");
 const multer = require("multer");
 const path = require("path")
-const signupController = (req, res) => {
+const signupController = (req, res, next) => {
   var { userName, email, firstName, lastName, password } = req.body;
 
   var profilePic = req.file.path.replaceAll("\\", "/");

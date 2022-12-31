@@ -17,7 +17,7 @@ const ChatScreen = () => {
   useEffect(()=>{
     const userInfo = JSON.parse(localStorage.getItem("chatie"))
     setUser(userInfo)
-    if(userInfo === {}){
+    if(userInfo.length === 0|| userInfo === null || userInfo === undefined || !localStorage.getItem("chatie")){
       navigate("/authentication")
     }
     
