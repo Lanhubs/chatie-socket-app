@@ -1,8 +1,7 @@
-const { signupController, loginController, upload } = require("../Controllers/AuthControllers")
-
+const { signupController, loginController, upload } = require("../Controllers")
 const express = require("express")
 const { authorize } = require("../middlewares/authMiddleware")
-const { getAllUsersController } = require("../Controllers")
+const { getAllUsersController, allChats } = require("../Controllers")
 const route = express.Router()
 
 route.post("/signup", upload, signupController )

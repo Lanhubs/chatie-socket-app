@@ -9,11 +9,11 @@ const messagesModel = db.define(
     content: {
       type: Sequelize.TEXT,
       time: true,
-    },
+    }
   },
   { timestamps: true }
 );
-messagesModel.hasMany(usersModel, {
+messagesModel.belongsTo(usersModel, {
   foreignKey: "id",
   as: "sender",
 })

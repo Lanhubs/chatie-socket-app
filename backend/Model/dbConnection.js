@@ -15,6 +15,6 @@ sequelize
   .then(() => console.log("Database connected successfully"))
   .catch((err) => {
     console.log(err);
-  });
+  })
 sequelize.sync({force: true})
 module.exports =  { sequelize, Sequelize };

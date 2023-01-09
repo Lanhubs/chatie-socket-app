@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  cookieStorageManager,
-  createStandaloneToast,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import React, { useState } from "react";
+import Input from "./Input";
+import { Box, Button, createStandaloneToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 const RegisterTab = () => {
   const [userName, setUserName] = useState("");
@@ -19,10 +11,9 @@ const RegisterTab = () => {
   const [profilePic, setProfilePic] = useState("");
   const { toast, ToastContainer } = createStandaloneToast();
   const navigate = useNavigate();
-  useEffect(() => {
-    
-  }, [firstName, lastName, profilePic, email, password, userName]);
+
   const signUpHandler = () => {
+    
     if (
       userName === "" ||
       password === "" ||
@@ -30,6 +21,7 @@ const RegisterTab = () => {
       email === "" ||
       firstName === ""
     ) {
+      
       toast({
         description: "input fields cannot be empty",
         size: "md",
@@ -39,17 +31,18 @@ const RegisterTab = () => {
         isClosable: true,
       });
     }
-    const data = new FormData();
-    data.append("userName", userName);
-    data.append("password", password);
-    data.append("lastName", lastName);
-    data.append("email", email);
-    data.append("firstName", firstName);
-    data.append("profilePic", profilePic);
+    const formData = new FormData();
+    formData.append("userName", userName);
+    formData.append("password", password);
+    formData.append("lastName", lastName);
+    formData.append("email", email);
+    formData.append("firstName", firstName);
+    formData.append("profilePic", profilePic);
+   
 
-    fetch("http://localhost:4040/api/signup", {
+    fetch("http://localhost:5000/api/signup", {
       method: "POST",
-      body: data,
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -82,77 +75,50 @@ const RegisterTab = () => {
   return (
     <Box w="full" display="flex" flexDir="column" gap="1rem" py="3rem">
       <ToastContainer />
-      <FormControl>
-        <FormLabel textTransform="capitalize">First name</FormLabel>
-        <Input
-          placeholder="Alan"
-          outlineColor={0}
-          outlineOffset={0}
-          onChange={(e) => setFirstName(e.target.value)}
-          border="1.5px solid rgba(0, 0, 255, 0.5)"
-          p="10px"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel textTransform="capitalize">last name</FormLabel>
-        <Input
-          onChange={(e) => setLastName(e.target.value)}
-          placeholder="walker"
-          type="text"
-          outlineColor={0}
-          outlineOffset={0}
-          border="1.5px solid rgba(0, 0, 255, 0.5)"
-          p="10px"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel textTransform="capitalize">Username</FormLabel>
-        <Input
-          placeholder="Alanwalk"
-          outlineColor={0}
-          outlineOffset={0}
-          onChange={(e) => setUserName(e.target.value)}
-          border="1.5px solid rgba(0, 0, 255, 0.5)"
-          p="10px"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel textTransform="capitalize">email</FormLabel>
-        <Input
-          placeholder="alanwalker@gmail.com"
-          outlineColor={0}
-          outlineOffset={0}
-          border="1.5px solid rgba(0, 0, 255, 0.5)"
-          p="10px"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel textTransform="capitalize">profile pic</FormLabel>
-        <Input
-          placeholder=""
-          type="file"
-          accept="image/*"
-          outlineColor={0}
-          outlineOffset={0}
-          name="profilePic"
-          onChange={(e) => setProfilePic(e.target.files[0])}
-          border="1.5px solid rgba(0, 0, 255, 0.5)"
-          height="40px"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel textTransform="capitalize">password</FormLabel>
-        <Input
-          placeholder="*******"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          outlineColor={0}
-          outlineOffset={0}
-          border="1.5px solid rgba(0, 0, 255, 0.5)"
-          p="10px"
-        />
-      </FormControl>
+      <Input
+        placeholder="first name:"
+        label="first name:"
+        handleChange={setFirstName}
+        name="firstName"
+        type="text"
+      />
+
+      <Input
+        handleChange={setLastName}
+        placeholder="walker"
+        type="text"
+        name="lastName"
+        label="last name:"
+      />
+
+      <Input
+        handleChange={setUserName}
+        placeholder="walker"
+        type="text"
+        name="username"
+        label="username:"
+      />
+      <Input
+        type="email"
+        label="email:"
+        name="email"
+        placeholder="jonDoe@g.co"
+        handleChange={setEmail}
+      />
+
+      <Input
+        placeholder=""
+        type="file"
+        label="profile pic"
+        name="profilePic"
+        handleChange={setProfilePic}
+      />
+      <Input
+        placeholder="password"
+        name="password"
+        type="password"
+        handleChange={setPassword}
+      />
       <Button bg="blue.300" h="3rem" onClick={signUpHandler}>
         Sign up
       </Button>

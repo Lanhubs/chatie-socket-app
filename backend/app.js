@@ -18,6 +18,6 @@ app.get("/", (req, res) => {
     })
     .catch((e) => console.log(e));
 });
-app.listen(4040, () => {
-  console.log("server running at port:" + 4040);
+app.listen(5000, () => {
+  console.log("server running at port:" + 5000);
 });

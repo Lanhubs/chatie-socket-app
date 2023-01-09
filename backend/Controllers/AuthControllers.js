@@ -1,14 +1,12 @@
 const usersModel = require("../Model/usersModel");
 const bcrypt = require("bcrypt");
 const generateToken = require("./token");
-const multer = require("multer");
-const path = require("path")
-const signupController = (req, res, next) => {
+
+const signupController = (req, res,) => {
   var { userName, email, firstName, lastName, password } = req.body;
 
   var profilePic = req.file.path.replaceAll("\\", "/");
-  usersModel
-    .create({
+  usersModel.create({
       userName,
       password,
       email,
@@ -39,6 +37,7 @@ const signupController = (req, res, next) => {
       console.log(e);
     });
 };
+
 const loginController = (req, res, next) => {
   const { email, password } = req.body;
   usersModel
@@ -68,26 +67,5 @@ const loginController = (req, res, next) => {
     });
 };
 
-const imgStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
 
-const upload = multer({
-  storage: imgStorage,
-  fileFilter: (req, file, cb) => {
-    const fileTypes = /jpg|jpeg|png|gif/;
-    const mimeType = fileTypes.test(file.mimetype);
-    const extname = fileTypes.test(path.extname(file.originalname));
-    if (mimeType && extname) {
-      console.log(file);
-      return cb(null, true);
-    }
-    cb("error occurred");
-  },
-}).single("profilePic");
-module.exports = { signupController, loginController, upload };
+module.exports = { signupController, loginController };

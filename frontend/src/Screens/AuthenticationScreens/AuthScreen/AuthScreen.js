@@ -8,10 +8,14 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import React from "react";
+import { useEffect } from "react";
 import LoginTab from "../LoginTab/LoginTab";
 import RegisterTab from "../RegisterTab/RegisterTab";
 
 const AuthScreen = () => {
+  useEffect(()=>{
+    localStorage.clear()
+  },[])
   return (
     <Box
       w="100vw"
