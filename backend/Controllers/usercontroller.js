@@ -4,7 +4,8 @@ const usersModel = require("../Model/usersModel");
 const allChats = async (req, res) => {};
 const getAllUsersController = async (req, res) => {
   var userQuery = req.query;
-  //   get all users when there's search query proided
+  console.log(userQuery)
+  //   get all users when there's search query provided
   const searchUserQuery = {
     where: {
       [Sequelize.Op.or]: [
@@ -21,7 +22,7 @@ const getAllUsersController = async (req, res) => {
   };
 
   var options = {};
-  if (Object.keys(userQuery) === 0) {
+  if (Object.keys(userQuery) === 0 || Object.keys(userQuery).length === 0) {
     options = getAllUsersQueryNoSearch;
   } else if (Object.keys(userQuery).length !== 0) {
     options = searchUserQuery;

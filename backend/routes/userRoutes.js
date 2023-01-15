@@ -9,4 +9,5 @@ route.post("/login", loginController)
 route.route("/chats").get(allChats)
 route.route("/user").get(authorize, getAllUsersController)
 
+
 module.exports = route

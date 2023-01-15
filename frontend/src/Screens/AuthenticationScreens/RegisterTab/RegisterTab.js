@@ -31,18 +31,19 @@ const RegisterTab = () => {
         isClosable: true,
       });
     }
-    const formData = new FormData();
-    formData.append("userName", userName);
-    formData.append("password", password);
-    formData.append("lastName", lastName);
-    formData.append("email", email);
-    formData.append("firstName", firstName);
-    formData.append("profilePic", profilePic);
+    const formData = {
+      firstName, password, email, lastName, userName
+    }
+   
+    // formData.append("profilePic", profilePic);
    
 
     fetch("http://localhost:5000/api/signup", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(formData),
+      headers:{
+        "Content-Type": "application/json"
+      }
     })
       .then((res) => res.json())
       .then((data) => {
@@ -106,13 +107,13 @@ const RegisterTab = () => {
         handleChange={setEmail}
       />
 
-      <Input
+      {/* <Input
         placeholder=""
         type="file"
         label="profile pic"
         name="profilePic"
         handleChange={setProfilePic}
-      />
+      /> */}
       <Input
         placeholder="password"
         name="password"

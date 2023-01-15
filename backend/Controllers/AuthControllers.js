@@ -5,18 +5,18 @@ const generateToken = require("./token");
 const signupController = (req, res,) => {
   var { userName, email, firstName, lastName, password } = req.body;
 
-  var profilePic = req.file.path.replaceAll("\\", "/");
+  // var profilePic = req.file.path.replaceAll("\\", "/");
   usersModel.create({
       userName,
       password,
       email,
       firstName,
       lastName,
-      profilePic,
+      // profilePic,
     })
     .then((docs) => {
       if (docs) {
-        var { userName, email, firstName, lastName, profilePic, id } = docs;
+        var { userName, email, firstName, lastName, id } = docs;
         res.send({
           status: 2000,
           details: {
@@ -24,7 +24,6 @@ const signupController = (req, res,) => {
             lastName,
             email,
             userName,
-            profilePic,
             id,
             token: generateToken(id),
           },
@@ -32,7 +31,8 @@ const signupController = (req, res,) => {
       }
     })
     .catch((e) => {
-      const error = e.errors[0].message;
+      console.log(e)
+      const error = e?.errors[0].message;
       res.send({ status: 4000, error });
       console.log(e);
     });
@@ -50,7 +50,6 @@ const loginController = (req, res, next) => {
         res.send({
           status: 2000,
           email,
-          profilePic,
           userName,
           lastName,
           firstName,

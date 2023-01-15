@@ -13,21 +13,21 @@ const ChatScreen = () => {
   const { showProfile, setShowProfile, closeShowProfile } = useDisclosure();
   
   const navigate = useNavigate()
-  const {user, setUser}= useRecoilState(userInfo)
+  const [user, setUser]= useState({})
   useEffect(()=>{
     const userInfo = JSON.parse(localStorage.getItem("chatie"))
-    setUser(userInfo)
-    if(userInfo.length === 0|| userInfo === null || userInfo === undefined || !localStorage.getItem("chatie")){
+    if(!localStorage.getItem("chatie")){
       navigate("/authentication")
     }
+    setUser(userInfo)
     
-  },[user])
+  },[])
 
   return (
 
     <>
       <Box w="100vw" h="100vh" p={0} m={0}>
-        <Bars userImage={user.profilePic}/>
+        <Bars userImage={user?.profilePic}/>
         <Box
           w="100vw"
           h="full"

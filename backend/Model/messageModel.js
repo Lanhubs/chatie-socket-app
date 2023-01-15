@@ -17,8 +17,9 @@ messagesModel.belongsTo(usersModel, {
   foreignKey: "id",
   as: "sender",
 })
-messagesModel.hasMany(chatsModel, {
+messagesModel.belongsToMany(chatsModel, {
   foreignKey: "id",
-  as: "chat",
+  
+  through: "latestMessage"
 });
 module.exports = messagesModel;

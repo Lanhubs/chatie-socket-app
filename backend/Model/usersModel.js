@@ -42,11 +42,11 @@ const usersModel = db.define(
 
       required: true,
     },
-    profilePic: {
+    /* profilePic: {
       type: Sequelize.STRING,
       unique: false,
       required: false,
-    },
+    }, */
     firstName: {
       type: Sequelize.STRING,
      

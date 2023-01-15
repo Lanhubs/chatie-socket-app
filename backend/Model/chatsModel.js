@@ -12,10 +12,11 @@ chatsModel.belongsTo(messagesModel, {
   foreignKey: "id",
   as: "latestMessage",
 });
-chatsModel.hasMany(usersModel, {
+chatsModel.belongsToMany(usersModel, {
   foreignKey: "id",
   as: "users",
-  type: Sequelize.ARRAY,
+  through: "users"
+  // type: Sequelize.ARRAY,
 });
 chatsModel.belongsTo(messagesModel, {
   foreignKey: "id",

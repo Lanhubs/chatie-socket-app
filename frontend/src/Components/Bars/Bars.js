@@ -15,12 +15,17 @@ const Bars = () => {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
     const img = JSON.parse(localStorage.getItem("chatie"));
-    setUserImage(img.profilePic);
-  }, [userImage]);
+    setUserImage(img?.profilePic);
+  }, []);
+  
+
+
+
+
   return (
     <Box
       border={0}
-      w={{ base: "full", md: "5%", lg: "5%" }}
+      w={{ base: "100vw", md: "7%", lg: "5%" }}
       h={{ md: "100vh", base: "7%" }}
       bg="rgba(0, 0, 0, 0.8)"
       p={{ base: 0, md: "3rem 1rem" }}
