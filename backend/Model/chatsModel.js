@@ -1,30 +1,26 @@
-const { sequelize, Sequelize } = require("./dbConnection");
-const { usersModel } = require("./usersModel");
-const db = require("./dbConnection");
-const messagesModel = require("./messageModel");
+// chatsName
+// isGroupChat
+// users
+// latestMessage
+// groupAdmin
 
-const chatsSchema = {
-  chatName: { type: Sequelize.STRING, trim: true },
-  isGroupChat: { type: Sequelize.BOOLEAN, default: false },
-};
-const chatsModel = db.define("Chat", chatsSchema, { timestamps: true });
-chatsModel.belongsTo(messagesModel, {
-  foreignKey: "id",
-  as: "latestMessage",
-});
-chatsModel.belongsToMany(usersModel, {
-  foreignKey: "id",
-  as: "users",
-  through: "users"
-  // type: Sequelize.ARRAY,
-});
-chatsModel.belongsTo(messagesModel, {
-  foreignKey: "id",
-  as: "latestMessage",
-});
-chatsModel.belongsTo(usersModel, {
-  foreignKey: "id",
-  as: "groupAdmin",
-});
+const { Schema, mongoose } = require("./db/dbConnection");
 
-module.exports = chatsModel;
+const chatsSchema = new Schema(
+  {
+    chatsName: { type: String, trim: true },
+    isGroupChat: { type: Boolean, default: false },
+    users: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    latestMessage: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+    },
+    groupAdmin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+    },
+  },
+  { timeseries: true }
+);
+
+module.exports = mongoose.model("Chats", chatsSchema);

@@ -1,5 +1,5 @@
 const { mongoose, Schema } = require("./db/dbConnection");
-const messagesSchema = new Schema(
+const messagesSchema = new mongoose.Schema(
   {
     sender: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
     content: { type: String, trim: true },

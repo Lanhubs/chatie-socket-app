@@ -11,12 +11,9 @@ import {
   AiOutlineMail,
   AiOutlineSetting,
 } from "react-icons/ai";
+import { chatState } from "../ChatProvider/ChatProvider";
 const Bars = () => {
-  const [userImage, setUserImage] = useState("");
-  useEffect(() => {
-    const img = JSON.parse(localStorage.getItem("chatie"));
-    setUserImage(img?.profilePic);
-  }, []);
+  const {user} = chatState()
   
 
 
@@ -42,7 +39,7 @@ const Bars = () => {
       <Avatar
         width="50px"
         display={{ base: "none", md: "block" }}
-        src={userImage ? userImage : userImg}
+        src={user ? user.profilePic : userImg}
         overflow="hidden"
         borderRadius={50}
       />

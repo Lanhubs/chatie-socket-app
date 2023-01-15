@@ -1,41 +1,43 @@
 const usersModel = require("../Model/usersModel");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const generateToken = require("./token");
+const {object_null_type_converter, hashPwd} = require("./impMethods");
 
-const signupController = (req, res,) => {
-  var { userName, email, firstName, lastName, password } = req.body;
-
-  // var profilePic = req.file.path.replaceAll("\\", "/");
-  usersModel.create({
-      userName,
-      password,
+const signupController = async (req, res) => {
+  var { username, email, firstName, lastName, password } = object_null_type_converter(req.body)
+ var hashedPwd =await  hashPwd(password)
+ 
+  try {
+    const docs = await usersModel.create({
+      username,
+      password: hashedPwd,
       email,
       firstName,
       lastName,
       // profilePic,
     })
-    .then((docs) => {
-      if (docs) {
-        var { userName, email, firstName, lastName, id } = docs;
-        res.send({
-          status: 2000,
-          details: {
-            firstName,
-            lastName,
-            email,
-            userName,
-            id,
-            token: generateToken(id),
-          },
-        });
-      }
-    })
-    .catch((e) => {
-      console.log(e)
-      const error = e?.errors[0].message;
-      res.send({ status: 4000, error });
-      console.log(e);
-    });
+  
+    if (docs) {
+      var { username, email, firstName, lastName, _id } = docs;
+      res.send({
+        status: 2000,
+        details: {
+          firstName,
+          lastName,
+          email,
+          username,
+          _id,
+          token: generateToken(_id),
+        },
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    // const error = e?.errors[0].message;
+    // res.send({ status: 4000, error });
+    console.log(e);
+  }
+  // var profilePic = req.file.path.replaceAll("\\", "/");
 };
 
 const loginController = (req, res, next) => {
@@ -45,16 +47,16 @@ const loginController = (req, res, next) => {
     .then(async (docs) => {
       const userPwd = await bcrypt.compare(password, docs.password);
       if (userPwd) {
-        const { email, profilePic, userName, lastName, firstName, id } = docs;
+        const { email, profilePic, username, lastName, firstName, __id } = docs;
 
         res.send({
           status: 2000,
           email,
-          userName,
+          username,
           lastName,
           firstName,
-          id,
-          token: generateToken(id),
+          _id,
+          token: generateToken(__id),
         });
       }
       if (!userPwd) {
@@ -65,6 +67,5 @@ const loginController = (req, res, next) => {
       console.log(e);
     });
 };
-
 
 module.exports = { signupController, loginController };

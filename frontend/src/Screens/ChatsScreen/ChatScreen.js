@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Bars from "../../Components/Bars/Bars";
 import { userInfo } from "../../Components/ChatProvider/chatAtoms";
+import { chatState } from "../../Components/ChatProvider/ChatProvider";
 import Chats from "../../Components/Conversation/Chats";
 import FriendList from "../../Components/FriendsList/FriendList";
 import ProfileModal from "../../Components/ProfileModal/ProfileModal";
@@ -12,16 +13,7 @@ import ProfileModal from "../../Components/ProfileModal/ProfileModal";
 const ChatScreen = () => {
   const { showProfile, setShowProfile, closeShowProfile } = useDisclosure();
   
-  const navigate = useNavigate()
-  const [user, setUser]= useState({})
-  useEffect(()=>{
-    const userInfo = JSON.parse(localStorage.getItem("chatie"))
-    if(!localStorage.getItem("chatie")){
-      navigate("/authentication")
-    }
-    setUser(userInfo)
-    
-  },[])
+  const {user} = chatState()
 
   return (
 

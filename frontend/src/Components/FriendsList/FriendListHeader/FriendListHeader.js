@@ -1,4 +1,9 @@
-import { AddIcon, Search2Icon, SearchIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  PlusSquareIcon,
+  Search2Icon,
+  SearchIcon,
+} from "@chakra-ui/icons";
 import {
   Avatar,
   AvatarBadge,
@@ -15,29 +20,29 @@ import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import userImg from "../../../assets/user.png";
 import { userInfo } from "../../ChatProvider/chatAtoms";
+import GroupChatModal from "../../GroupChatModal/GroupChatModal";
+import SideBarDrawer from "../../SideBarDrawer/SideBarDrawer";
 const FriendListHeader = () => {
-  const [search, setSearch] = useState("")
-  const [userToken, setUserToken] = useState("")
-  const setContacts = useSetRecoilState(userInfo)
-  useEffect(()=>{
-      const details= JSON.parse(localStorage.getItem("chatie"))
-      setUserToken(details.token)
-
-  }, [])
-  const handleSearch = ()=>{
+  const [search, setSearch] = useState("");
+  const [userToken, setUserToken] = useState("");
+  const setContacts = useSetRecoilState(userInfo);
+  useEffect(() => {
+    const details = JSON.parse(localStorage.getItem("chatie"));
+    setUserToken(details.token);
+  }, []);
+  const handleSearch = () => {
     fetch("", {
-      Authorization: userToken ,
+      Authorization: userToken,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(search)
-
-    }).then(res=>res.json())
-    .then(data=> {
-      setContacts(data)
+      body: JSON.stringify(search),
     })
-
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        setContacts(data);
+      });
+  };
   return (
     <Box w="full" p="10px" display="flex" flexDirection="column" gap="1rem">
       <Flex alignItems="center" justifyContent="space-between" px="10px">
@@ -73,7 +78,7 @@ const FriendListHeader = () => {
               marginLeft: "20px",
               color: "rgba(255, 255, 255, 0.5)",
             }}
-            onInput={e=>handleSearch(e)}
+            onInput={(e) => handleSearch(e)}
             placeholder="search"
             outlineOffset={0}
             border={0}
@@ -88,19 +93,33 @@ const FriendListHeader = () => {
           padding="10px"
           bg="rgba(0, 0, 0, 0.5)"
         >
-          <Button
-            w="50px"
-            height="50px"
-            bg="rgba(0, 0, 0, 0.5)"
-            _hover={{ background: "rgba(0, 0, 0, 0.4)" }}
-            outlineColor=""
-            outlineOffset={0}
-            border={0}
-            borderRadius={50}
-          >
-            <SearchIcon color="#fff" />
-          </Button>
+          <SideBarDrawer>
+            <Button
+              w="50px"
+              height="50px"
+              bg="rgba(0, 0, 0, 0.5)"
+              _hover={{ background: "rgba(0, 0, 0, 0.4)" }}
+              outlineColor=""
+              outlineOffset={0}
+              border={0}
+              borderRadius={50}
+            >
+              <SearchIcon color="#fff" />
+            </Button>
+          </SideBarDrawer>
         </Tooltip>
+        <GroupChatModal>
+          <Button
+            bg="rgba(0, 0, 0, 0.5)"
+            color="#fff"
+            textTransform={"capitalize"}
+            fontSize={18}
+            h="50px"
+          >
+            <Text display={{ base: "none", md: "flex" }}>new groupchat</Text>{" "}
+            <AddIcon ml={{ base: "", md: "10px" }} fontSize={16} />
+          </Button>
+        </GroupChatModal>
       </Flex>
     </Box>
   );

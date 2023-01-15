@@ -3,7 +3,7 @@ import Input from "./Input";
 import { Box, Button, createStandaloneToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 const RegisterTab = () => {
-  const [userName, setUserName] = useState("");
+  const [username, setusername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,7 @@ const RegisterTab = () => {
   const signUpHandler = () => {
     
     if (
-      userName === "" ||
+      username === "" ||
       password === "" ||
       lastName === "" ||
       email === "" ||
@@ -32,7 +32,7 @@ const RegisterTab = () => {
       });
     }
     const formData = {
-      firstName, password, email, lastName, userName
+      firstName, password, email, lastName, username
     }
    
     // formData.append("profilePic", profilePic);
@@ -93,7 +93,7 @@ const RegisterTab = () => {
       />
 
       <Input
-        handleChange={setUserName}
+        handleChange={setusername}
         placeholder="walker"
         type="text"
         name="username"

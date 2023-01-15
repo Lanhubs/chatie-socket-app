@@ -8,13 +8,14 @@ const authorize = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
-    req.user = await usersModel.findToken({ where: { id: decodedToken.id } });
+    req.user = await usersModel
+      .findById({ _id: decodedToken._id })
+      .select("-password");
     next();
   }
-  res.status(405).send("invalid or unauthorized token");
+  if (!token) {
+    res.status(401).send("invalid or unauthorized token");
+  }
 };
 
-
-
-
-module.exports = {authorize}
+module.exports = { authorize };
