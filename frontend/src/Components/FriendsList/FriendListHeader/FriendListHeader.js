@@ -93,6 +93,7 @@ const FriendListHeader = () => {
           padding="10px"
           bg="rgba(0, 0, 0, 0.5)"
         >
+          
           <SideBarDrawer>
             <Button
               w="50px"
