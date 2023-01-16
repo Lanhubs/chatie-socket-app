@@ -6,9 +6,9 @@ import { RecoilRoot } from "recoil";
 import { ChatProvider } from "./Components/ChatProvider/ChatProvider";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ChatProvider>
+  // <ChatProvider>
     <RecoilRoot>
       <App />
     </RecoilRoot>
-  </ChatProvider>
+  // </ChatProvider>
 );

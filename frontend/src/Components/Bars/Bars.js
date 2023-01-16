@@ -11,13 +11,11 @@ import {
   AiOutlineMail,
   AiOutlineSetting,
 } from "react-icons/ai";
-import { chatState } from "../ChatProvider/ChatProvider";
+
+import { ChatState } from "../ChatProvider/ChatProvider";
+import ProfileModal from "../ProfileModal/ProfileModal";
 const Bars = () => {
-  const {user} = chatState()
-  
-
-
-
+  const { user } = ChatState();
 
   return (
     <Box
@@ -36,13 +34,16 @@ const Bars = () => {
       flexDir={{ md: "column", base: "row" }}
       gap={"2rem"}
     >
-      <Avatar
-        width="50px"
-        display={{ base: "none", md: "block" }}
-        src={user ? user.profilePic : userImg}
-        overflow="hidden"
-        borderRadius={50}
-      />
+      <ProfileModal>
+        <Avatar
+          cursor="pointer"
+          width="50px"
+          display={{ base: "none", md: "block" }}
+          src={user ? user.profilePic : userImg}
+          overflow="hidden"
+          borderRadius={50}
+        />
+      </ProfileModal>
       <Box
         display="flex"
         alignItems={{ base: "center", md: "" }}

@@ -21,6 +21,7 @@ import { useSetRecoilState } from "recoil";
 import userImg from "../../../assets/user.png";
 import { userInfo } from "../../ChatProvider/chatAtoms";
 import GroupChatModal from "../../GroupChatModal/GroupChatModal";
+import ProfileModal from "../../ProfileModal/ProfileModal";
 import SideBarDrawer from "../../SideBarDrawer/SideBarDrawer";
 const FriendListHeader = () => {
   const [search, setSearch] = useState("");
@@ -47,9 +48,11 @@ const FriendListHeader = () => {
     <Box w="full" p="10px" display="flex" flexDirection="column" gap="1rem">
       <Flex alignItems="center" justifyContent="space-between" px="10px">
         <Text fontSize={25}>Chatie</Text>
-        <Avatar src={userImg} display={{ base: "flex", md: "none" }}>
-          <AvatarBadge boxSize="10px" />
-        </Avatar>
+        <ProfileModal>
+          <Avatar cursor="pointer" src={userImg} display={{ base: "flex", md: "none" }}>
+            <AvatarBadge boxSize="10px" />
+          </Avatar>
+        </ProfileModal>
       </Flex>
 
       <Flex gap="1rem">
@@ -93,7 +96,6 @@ const FriendListHeader = () => {
           padding="10px"
           bg="rgba(0, 0, 0, 0.5)"
         >
-          
           <SideBarDrawer>
             <Button
               w="50px"

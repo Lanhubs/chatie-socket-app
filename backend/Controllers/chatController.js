@@ -1,5 +1,5 @@
 const chatsModel = require("../Model/chatsModel");
-const messagesModel = require("../Model/messageModel");
+const messagesModel = require("../Model/messagesModel");
 const usersModel = require("../Model/usersModel");
 
 const accessChats = async (req, res) => {
