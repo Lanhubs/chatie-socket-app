@@ -32,7 +32,7 @@ const Bars = () => {
       bottom={{ base: 0, md: "" }}
       alignItems="center"
       flexDir={{ md: "column", base: "row" }}
-      gap={"2rem"}
+      rowGap={"2rem"}
     >
       <ProfileModal>
         <Avatar
@@ -49,7 +49,7 @@ const Bars = () => {
         alignItems={{ base: "center", md: "" }}
         h={{ base: "100%", md: "100%" }}
         flexDir={{ md: "column", base: "row" }}
-        gap="1rem"
+        gap={{base: "10%",md:"1rem"}}
       >
         {barLinks.map((item, index) => (
           <Link

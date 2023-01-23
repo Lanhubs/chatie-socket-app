@@ -10,18 +10,49 @@ import {
   Button,
   useDisclosure,
   useToast,
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerOverlay,
+  Spinner,
 } from "@chakra-ui/react";
-import { Search2Icon } from "@chakra-ui/icons";
+import { Search2Icon, SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { ChatState } from "../ChatProvider/ChatProvider";
+import SearchLoader from "./SearchAnimation";
+import UserItem from "./UserItem/UserItem";
 
 const SideBarDrawer = ({ children }) => {
-  const [openSideBar, setOpenSideBar] = useState(false);
-  const { user } = ChatState();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [focused, setFocused] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+  const { user, setSelectedChat, selectedChat, setChats } = ChatState();
   const [search, setSearch] = useState();
+
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const accessChat = (id) => {
+    setLoading(true);
+    fetch("http://localhost:5000", {
+      method: "POST",
+      body: JSON.stringify(id),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${id}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!chats.find((c) => c._id === data._id)) setChats([...data, chats]);
+        setSelectedChat(data);
+        setLoading(false);
+        onClose();
+      })
+      .catch((e) => console.log(e));
+  };
   const handleSearch = () => {
+    setLoading(true);
     if (!search) {
       toast({
         title: "please enter something you wish to search for",
@@ -41,15 +72,15 @@ const SideBarDrawer = ({ children }) => {
       },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => setSearchResult(data))
       .catch((e) => {
         toast({
           title: "Error Occurred",
           description: "Failed to load search results",
           status: "error",
           duration: 3000,
-          isClossable: true
-        })
+          isClossable: true,
+        });
       });
   };
   return (
@@ -59,33 +90,55 @@ const SideBarDrawer = ({ children }) => {
         placement="bottom-end"
         hasArrow={true}
       >
-        <span onClick={() => setOpenSideBar(!true)}>{children}</span>
+        <span onClick={onOpen}>{children}</span>
       </Tooltip>
-      <Box
-        bg="#fff"
-        backgroundColor="#fff"
-        zIndex={1000}
-        width={"22em"}
-        display={openSideBar ? "block" : "none"}
-        top={0}
-        left={0}
-        flexDir="column"
-        py="2rem"
-        position="fixed"
-        height="100vh"
-        transition="ease-in-out 1s"
+      <Drawer
+        placement="left"
+        isOpen={isOpen}
+        closeOnOverlayClick={true}
+        closeOnEsc={true}
+        onClose={onclose}
       >
-        <Flex>
-          <FormControl>
-            <InputGroup>
-              <Input />
-              <InputRightAddon>
-                <Button as={Search2Icon} bg="cyan.700" padding="5px" />
-              </InputRightAddon>
-            </InputGroup>
-          </FormControl>
-        </Flex>
-      </Box>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>Search for user</DrawerHeader>
+          <DrawerBody>
+            <Flex>
+              <FormControl>
+                <InputGroup>
+                  <Input
+                    onChange={(e) => setSearch(e.target.value)}
+                    value={search}
+                    placeholder={"search user"}
+                    autoFocus={focused}
+                  />
+                  <Button
+                    as={Button}
+                    onClick={handleSearch}
+                    bg="cyan.700"
+                    padding="5px"
+                    children={<Search2Icon />}
+                  ></Button>
+                </InputGroup>
+              </FormControl>
+            </Flex>
+            {loading ? (
+              <SearchLoader />
+            ) : (
+              <>
+                {searchResult?.map((item, idx) => (
+                  <UserItem
+                    user={item}
+                    key={idx}
+                    clickHandler={() => accessChat(item._id)}
+                  />
+                ))}
+              </>
+            )}
+            {loading && <Spinner ml="auto" d="flex" />}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };

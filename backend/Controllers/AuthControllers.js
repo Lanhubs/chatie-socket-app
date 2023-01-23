@@ -6,6 +6,7 @@ const {object_null_type_converter, hashPwd} = require("./impMethods");
 const signupController = async (req, res) => {
   var { username, email, firstName, lastName, password } = object_null_type_converter(req.body)
  var hashedPwd =await  hashPwd(password)
+//  const profilePic = req.file.path.replaceALl("\\", "/")
  
   try {
     const docs = await usersModel.create({

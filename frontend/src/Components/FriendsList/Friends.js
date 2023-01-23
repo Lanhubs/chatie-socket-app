@@ -7,8 +7,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-
-const Friends = () => {
+import chatImg from "../../assets/user.png"
+const Friends = ({user, clickHandler}) => {
   return (
     <Box
       w="100%"
@@ -17,6 +17,7 @@ const Friends = () => {
       display="flex"
       flexDirection="column"
       gap="1rem"
+      onClick={clickHandler}
     >
       <Box
         w="100%"
@@ -30,11 +31,12 @@ const Friends = () => {
       >
         <Avatar
           bgImage=""
-          w="60px"
+          w="50px"
           bg="rgba(0, 0, 0, 0.5)"
           borderRadius={50}
-          h="60px"
-        ></Avatar>
+          src={chatImg}
+          h="50px"
+        />
         <Box>
           <Text fontSize={20} letterSpacing={1}> Alan walker</Text>
           <Text>lorem ipsum</Text>

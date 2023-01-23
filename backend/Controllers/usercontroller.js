@@ -12,7 +12,10 @@ const getAllUsersController = async (req, res) => {
         ],
       }
     : {};
-  const docs = await usersModel.find(searchKeyword).find({ $ne: req.user._id }).select("-password")
+  const docs = await usersModel
+    .find(searchKeyword)
+    .find({ $ne: req.user._id })
+    .select("-password");
 
   if (docs) {
     res.json({ users: docs });

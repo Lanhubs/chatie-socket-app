@@ -4,13 +4,14 @@
 // latestMessage
 // groupAdmin
 
-const { Schema, mongoose } = require("./db/dbConnection");
+const { mongoose } = require("./db/dbConnection");
 
-const chatsSchema = new Schema(
+const chatsSchema = new mongoose.Schema(
+  
   {
     chatsName: { type: String, trim: true },
     isGroupChat: { type: Boolean, default: false },
-    users: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    users: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
     latestMessage: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
