@@ -17,7 +17,6 @@ const signupController = async (req, res) => {
       lastName,
       // profilePic,
     })
-  
     if (docs) {
       var { username, email, firstName, lastName, _id } = docs;
       res.send({
