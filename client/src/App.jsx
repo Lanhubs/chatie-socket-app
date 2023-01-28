@@ -1,9 +1,9 @@
 import "./App.css";
 import { Box, ChakraProvider } from "@chakra-ui/react";
-import ChatScreen from "./Screens/ChatsScreen/ChatScreen";
+import ChatScreen from "./Screens/ChatsScreen";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import AuthScreen from "./Screens/AuthenticationScreens/AuthScreen/AuthScreen";
-import { ChatProvider } from "./Components/ChatProvider/ChatProvider";
+import AuthScreen from "./Screens/AuthenticationScreens/AuthScreen";
+
 
 function App() {
   return (

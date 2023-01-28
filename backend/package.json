@@ -4,7 +4,7 @@
   "description": "Mobile shop",
   "main": "app.js",
   "scripts": {
-    "start": "node  --watch  app.js"
+    "start": "nodemon  app.js"
   },
   "author": "Lanre",
   "license": "ISC",

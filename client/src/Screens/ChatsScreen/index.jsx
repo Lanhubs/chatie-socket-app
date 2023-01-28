@@ -2,13 +2,13 @@ import { Box } from "@chakra-ui/react";
 import React from "react";
 import { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import Bars from "../../Components/Bars/Bars";
+import Bars from "../../Components/Bars/";
 import {
   ChatProvider,
   ChatState,
 } from "../../Components/ChatProvider/ChatProvider";
-import Chats from "../../Components/Conversation/Chats";
-import FriendList from "../../Components/FriendsList/FriendList";
+import Chats from "../../Components/Conversation/index";
+import FriendList from "../../Components/FriendsList";
 
 const ChatScreen = () => {
   const { user } = ChatState();

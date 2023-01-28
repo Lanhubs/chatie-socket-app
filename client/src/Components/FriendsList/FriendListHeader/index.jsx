@@ -11,22 +11,21 @@ import {
   Button,
   Flex,
   Input,
-  InputGroup,
-  InputRightAddon,
+  
   Text,
-  Tooltip,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import userImg from "../../../assets/user.png";
-import { userInfo } from "../../ChatProvider/chatAtoms";
-import GroupChatModal from "../../GroupChatModal/GroupChatModal";
-import ProfileModal from "../../ProfileModal/ProfileModal";
-import SideBarDrawer from "../../SideBarDrawer/SideBarDrawer";
+import { ChatState } from "../../ChatProvider/ChatProvider";
+
+import GroupChatModal from "../../GroupChatModal";
+import ProfileModal from "../../ProfileModal";
+import SideBarDrawer from "../../SideBarDrawer";
 const FriendListHeader = () => {
   const [search, setSearch] = useState("");
   const [userToken, setUserToken] = useState("");
-  const setContacts = useSetRecoilState(userInfo);
+  const {user} = ChatState()
   useEffect(() => {
     const details = JSON.parse(localStorage.getItem("chatie"));
     setUserToken(details.token);

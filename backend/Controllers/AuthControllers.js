@@ -1,13 +1,14 @@
 const usersModel = require("../Model/usersModel");
 const bcrypt = require("bcryptjs");
 const generateToken = require("./token");
-const {object_null_type_converter, hashPwd} = require("./impMethods");
+const { object_null_type_converter, hashPwd } = require("./impMethods");
 
 const signupController = async (req, res) => {
-  var { username, email, firstName, lastName, password } = object_null_type_converter(req.body)
- var hashedPwd =await  hashPwd(password)
-//  const profilePic = req.file.path.replaceALl("\\", "/")
- 
+  var { username, email, firstName, lastName, password } =
+    object_null_type_converter(req.body);
+  var hashedPwd = await hashPwd(password);
+  //  const profilePic = req.file.path.replaceALl("\\", "/")
+
   try {
     const docs = await usersModel.create({
       username,
@@ -16,7 +17,7 @@ const signupController = async (req, res) => {
       firstName,
       lastName,
       // profilePic,
-    })
+    });
     if (docs) {
       var { username, email, firstName, lastName, _id } = docs;
       res.send({
@@ -40,32 +41,29 @@ const signupController = async (req, res) => {
   // var profilePic = req.file.path.replaceAll("\\", "/");
 };
 
-const loginController = (req, res, next) => {
+const loginController = async (req, res, next) => {
   const { email, password } = req.body;
-  usersModel
-    .findOne({ where: { email } })
-    .then(async (docs) => {
-      const userPwd = await bcrypt.compare(password, docs.password);
-      if (userPwd) {
-        const { email, profilePic, username, lastName, firstName, __id } = docs;
+  try {
+    const docs = await usersModel.findOne({ where: { email } }).lean();
+    const userPwd = await bcrypt.compare(password, docs.password);
+    if (userPwd) {
+      const { password, ...rest } = docs;
 
-        res.send({
-          status: 2000,
-          email,
-          username,
-          lastName,
-          firstName,
-          _id,
-          token: generateToken(__id),
-        });
-      }
-      if (!userPwd) {
-        res.send({ status: 4000, error: "password or email is incorrect" });
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+      res.status(200).send({
+        status: 2000,
+        details: {
+          ...rest,
+        },
+        token: generateToken(rest.__id),
+      });
+    }
+    if (!userPwd) {
+      res.send({ status: 4000, error: "password or email is incorrect" });
+    }
+  } catch (error) {
+
+    console.log(error);
+  }
 };
 
 module.exports = { signupController, loginController };

@@ -1,24 +1,19 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState();
   const [user, setUser] = useState();
   const [search, setSearch] = useState();
-  
 
   const [notification, setNotification] = useState();
   const [chats, setChats] = useState();
   useEffect(() => {
-    const userInfo = localStorage.getItem("chatie")
-    if (userInfo) {
-      const {details} = JSON.parse(userInfo)
-      console.log(details)
-      setUser(details);
-    }else{
-      setUser(null)
+    const userInfo = JSON.parse(localStorage.getItem("chatie"));
+    setUser(userInfo?.details);
+    if (!userInfo) {
+      setUser(null);
     }
   }, []);
 
