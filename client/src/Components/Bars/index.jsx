@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex, Image, Link } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link as AnchorComponent } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import userImg from "../../assets/user.png";
 
 import {
@@ -55,7 +55,7 @@ const Bars = () => {
           <Link
             padding={{ base: "10px", md: "" }}
             key={index}
-            as={AnchorComponent}
+            as={NavLink}
             fontSize={30}
             color="rgba(255, 255, 255, 0.5)"
             justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}

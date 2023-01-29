@@ -1,10 +1,9 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Bars from "../../Components/Bars/";
 import {
-  ChatProvider,
   ChatState,
 } from "../../Components/ChatProvider/ChatProvider";
 import Chats from "../../Components/Conversation/index";
@@ -16,7 +15,6 @@ const ChatScreen = () => {
  useEffect(()=>{
    if (!user) {
      navigate("/authentication")
-
    }
  },[])
   return (

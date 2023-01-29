@@ -3,8 +3,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-  const [selectedChat, setSelectedChat] = useState();
-  const [user, setUser] = useState();
+  const [selectedChat, setSelectedChat] = useState({});
+  const [user, setUser] = useState({});
   const [search, setSearch] = useState();
 
   const [notification, setNotification] = useState();
