@@ -5,15 +5,17 @@ import {
   FormLabel,
   Input,
   Text,
- createStandaloneToast, Spinner} from "@chakra-ui/react";
+  createStandaloneToast,
+  Spinner,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const LoginTab = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [requesting, setRequesting] = useState(false)
+  const [requesting, setRequesting] = useState(false);
   const { toast, ToastContainer } = createStandaloneToast();
- const navigate = useNavigate()
+  const navigate = useNavigate();
   const loginHandler = () => {
     if (email === "" || password === "") {
       toast({
@@ -22,7 +24,6 @@ const LoginTab = () => {
         status: "error",
         duration: 2000,
       });
-
     }
     const data = { email, password };
     fetch("http://localhost:5000/api/login", {
@@ -32,10 +33,10 @@ const LoginTab = () => {
       },
       body: JSON.stringify(data),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      if(data){
-          setRequesting(true)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setRequesting(true);
           toast({
             description: "successful redirecting...",
             duration: 3000,
@@ -45,12 +46,15 @@ const LoginTab = () => {
             status: "success",
           });
           localStorage.setItem("chatie", JSON.stringify(data));
-          navigate("/")
+          navigate("/");
         }
       })
-      .catch((e) => console.log(e))
-    setRequesting(false)
+      .catch((e) => console.log(e));
+    setRequesting(false);
   };
+  React.useEffect(() => {
+    localStorage.removeItem("chatie")
+  }, []);
   return (
     <Box w="full" display="flex" flexDir="column" py="3rem" gap="2rem">
       <ToastContainer />
@@ -78,9 +82,8 @@ const LoginTab = () => {
           p="10px"
         />
       </FormControl>
-      <Button bg="green.400" p="1em" onClick={loginHandler}>
-        {requesting?<Spinner/>: "Log In"}
-        
+      <Button bg="green.400" p="1em" onClick={() => loginHandler()}>
+        {requesting ? <Spinner /> : "Log In"}
       </Button>
     </Box>
   );

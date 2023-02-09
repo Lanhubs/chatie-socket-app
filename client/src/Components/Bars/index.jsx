@@ -1,6 +1,6 @@
-import { Avatar, Box, Flex, Image, Link } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Image} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link} from "react-router-dom";
 import userImg from "../../assets/user.png";
 
 import {
@@ -12,10 +12,11 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 
-import { ChatState } from "../ChatProvider/ChatProvider";
 import ProfileModal from "../ProfileModal";
+import { useRecoilState } from "recoil";
+import { userState } from "../atoms";
 const Bars = () => {
-  const { user } = ChatState();
+ const user = useRecoilState(userState)
 
   return (
     <Box
@@ -52,10 +53,10 @@ const Bars = () => {
         gap={{base: "10%",md:"1rem"}}
       >
         {barLinks.map((item, index) => (
-          <Link
+          <Box
             padding={{ base: "10px", md: "" }}
             key={index}
-            as={NavLink}
+            // as={Link}
             fontSize={30}
             color="rgba(255, 255, 255, 0.5)"
             justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}
@@ -63,10 +64,10 @@ const Bars = () => {
               base: "",
               md: barLinks.length === index + 1 ? "auto" : "",
             }}
-            to={item.link}
+            // to={item.link}
           >
             {item.icon}
-          </Link>
+          </Box>
         ))}
       </Box>
     </Box>

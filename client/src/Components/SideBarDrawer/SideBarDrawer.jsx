@@ -34,7 +34,7 @@ const SideBarDrawer = ({ children }) => {
   const toast = useToast();
   const accessChat = (id) => {
     setLoading(true);
-    fetch("http://localhost:5000", {
+    fetch("http://localhost:5000/api/accesschat", {
       method: "POST",
       body: JSON.stringify(id),
       headers: {
@@ -81,7 +81,9 @@ const SideBarDrawer = ({ children }) => {
           duration: 3000,
           isClossable: true,
         });
+      console.log(e)
       });
+      
   };
   return (
     <>

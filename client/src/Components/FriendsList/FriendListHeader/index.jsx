@@ -11,12 +11,12 @@ import {
   Button,
   Flex,
   Input,
-  
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import userImg from "../../../assets/user.png";
+import { userState } from "../../atoms";
 import { ChatState } from "../../ChatProvider/ChatProvider";
 
 import GroupChatModal from "../../GroupChatModal";
@@ -25,14 +25,14 @@ import SideBarDrawer from "../../SideBarDrawer";
 const FriendListHeader = () => {
   const [search, setSearch] = useState("");
   const [userToken, setUserToken] = useState("");
-  const {user} = ChatState()
+  const user = useRecoilState(userState);
   useEffect(() => {
     const details = JSON.parse(localStorage.getItem("chatie"));
     setUserToken(details.token);
   }, []);
   const handleSearch = () => {
-    fetch("", {
-      Authorization: userToken,
+    fetch(`https://localhost:5000/api/user?search=${search}`, {
+      Authorization: `Bearer ${userToken}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -48,7 +48,11 @@ const FriendListHeader = () => {
       <Flex alignItems="center" justifyContent="space-between" px="10px">
         <Text fontSize={25}>Chatie</Text>
         <ProfileModal>
-          <Avatar cursor="pointer" src={userImg} display={{ base: "flex", md: "none" }}>
+          <Avatar
+            cursor="pointer"
+            src={userImg}
+            display={{ base: "flex", md: "none" }}
+          >
             <AvatarBadge boxSize="10px" />
           </Avatar>
         </ProfileModal>
@@ -87,22 +91,20 @@ const FriendListHeader = () => {
             bg="unset"
           />
         </Box>
-          <SideBarDrawer>
-        
-            <Button
-              w="50px"
-              height="50px"
-              bg="rgba(0, 0, 0, 0.5)"
-              _hover={{ background: "rgba(0, 0, 0, 0.4)" }}
-              outlineColor=""
-              outlineOffset={0}
-              border={0}
-              borderRadius={50}
-            >
-              <SearchIcon color="#fff" />
-            </Button>
-       
-          </SideBarDrawer>
+        <SideBarDrawer>
+          <Button
+            w="50px"
+            height="50px"
+            bg="rgba(0, 0, 0, 0.5)"
+            _hover={{ background: "rgba(0, 0, 0, 0.4)" }}
+            outlineColor=""
+            outlineOffset={0}
+            border={0}
+            borderRadius={50}
+          >
+            <SearchIcon color="#fff" />
+          </Button>
+        </SideBarDrawer>
         <GroupChatModal>
           <Button
             bg="rgba(0, 0, 0, 0.5)"
