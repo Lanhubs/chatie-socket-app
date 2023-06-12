@@ -8,6 +8,7 @@ import {
   createStandaloneToast,
   Spinner,
 } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const LoginTab = () => {
@@ -26,7 +27,7 @@ const LoginTab = () => {
       });
     }
     const data = { email, password };
-    fetch("http://localhost:5000/api/login", {
+    fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +36,7 @@ const LoginTab = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data) {
+        if (data.status === 2000) {
           setRequesting(true);
           toast({
             description: "successful redirecting...",
@@ -45,15 +46,34 @@ const LoginTab = () => {
             size: "md",
             status: "success",
           });
-          localStorage.setItem("chatie", JSON.stringify(data));
-          navigate("/");
+          var details = JSON.stringify(data);
+          var expirydate = new Date();
+          expirydate = expirydate.getDate() + 3;
+          Cookies.set("Chatie", details, {
+            expires: 7,
+            sameSite: "strict",
+            secure: true,
+            domain: "http://localhost:5173",
+            path: "/"
+          });
+          // navigate("/");
+        }
+        if (data.status === 4000) {
+          toast({
+            description: data.error,
+            duration: 3000,
+            position: "top",
+            isClosable: true,
+            size: "md",
+            status: "error",
+          });
         }
       })
       .catch((e) => console.log(e));
     setRequesting(false);
   };
   React.useEffect(() => {
-    localStorage.removeItem("chatie")
+    Cookies.remove("Chatie");
   }, []);
   return (
     <Box w="full" display="flex" flexDir="column" py="3rem" gap="2rem">

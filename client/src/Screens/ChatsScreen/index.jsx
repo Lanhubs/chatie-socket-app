@@ -8,12 +8,13 @@ import Bars from "../../Components/Bars/";
 import { ChatState } from "../../Components/ChatProvider/ChatProvider";
 import Chats from "../../Components/Conversation/index";
 import FriendList from "../../Components/FriendsList";
+import Cookies from "js-cookie";
 
 const ChatScreen = () => {
   const setUser = useSetRecoilState(userState)
   const navigate = useNavigate();
   useEffect(() => {
-    const userDetails = localStorage.getItem("chatie")
+    const userDetails = Cookies.get("Chatie")
     const data = JSON.parse(userDetails)
     if(!userDetails || !data){
       navigate("/authentication")

@@ -1,42 +1,40 @@
 const usersModel = require("../Model/usersModel");
-const bcrypt = require("bcryptjs");
+const {
+  decryptPassword,
+  encryptPwd,
+} = require("../Middlewares/handlePassword");
 const generateToken = require("./token");
+const { handleErrorMsg } = require("../Middlewares/errorHandler");
 const { object_null_type_converter, hashPwd } = require("./impMethods");
-
+const { v4: uuidv4 } = require("uuid");
 const signupController = async (req, res) => {
-  var { username, email, firstName, lastName, password } =
-    object_null_type_converter(req.body);
-  var hashedPwd = await hashPwd(password);
+  var { password, profilePic, ...rest } = req.body;
+
+  var hashedPwd = encryptPwd(password);
   //  const profilePic = req.file.path.replaceALl("\\", "/")
 
   try {
-    const docs = await usersModel.create({
-      username,
-      password: hashedPwd,
-      email,
-      firstName,
-      lastName,
-      // profilePic,
-    });
+    const docs = await usersModel
+      .create({
+        _id: uuidv4(),
+        password: hashedPwd,
+        firstName: rest.firstName,
+        lastName: rest.lastName,
+        username: rest.username,
+        email: rest.email,
+        profilePic: profilePic,
+      })
     if (docs) {
-      var { username, email, firstName, lastName, _id } = docs;
+      var { password, ...rest } = docs;
       res.send({
         status: 2000,
-        details: {
-          firstName,
-          lastName,
-          email,
-          username,
-          _id,
-          token: generateToken(_id),
-        },
+        details: rest,
+        token: generateToken(rest._id),
       });
     }
   } catch (e) {
     console.log(e);
-    // const error = e?.errors[0].message;
-    // res.send({ status: 4000, error });
-    console.log(e);
+    res.send({ status: 4000, error: handleErrorMsg(e) });
   }
   // var profilePic = req.file.path.replaceAll("\\", "/");
 };
@@ -45,24 +43,23 @@ const loginController = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const docs = await usersModel.findOne({ where: { email } }).lean();
-    const userPwd = await bcrypt.compare(password, docs.password);
+    const userPwd = decryptPassword(password, docs.password);
+    console.log(userPwd);
     if (userPwd) {
       const { password, ...rest } = docs;
 
       res.status(200).send({
         status: 2000,
-        details: {
-          ...rest,
-        },
+        details: rest,
         token: generateToken(rest.__id),
       });
     }
-    if (!userPwd) {
-      res.send({ status: 4000, error: "password or email is incorrect" });
-    }
   } catch (error) {
-
     console.log(error);
+    res.send({
+      status: 4000,
+      error: e /* "password or email is incorrect"  */,
+    });
   }
 };
 

@@ -1,23 +1,20 @@
-import { Drawer, DrawerBody, DrawerContent, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React from "react";
 
-const index = ({children}) => {
-    const {isOpen, onOpen, onClose} = useDisclosure()
+const index = ({ children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-    <span onFocus={onOpen}>
-    {children}
-    </span>
-    <Drawer isOpen={isOpen} onClose={onClose}>
-        <DrawerBody>
-            <DrawerContent>
-                
-            </DrawerContent>
-        </DrawerBody>
-    </Drawer>
+      <span onFocus={onOpen}>{children}</span>
+      <Modal></Modal>
     </>
-  )
-}
+  );
+};
 
-export default index
+export default index;

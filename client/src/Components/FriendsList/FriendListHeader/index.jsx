@@ -4,6 +4,7 @@ import {
   Search2Icon,
   SearchIcon,
 } from "@chakra-ui/icons";
+import Cookies from "js-cookie";
 import {
   Avatar,
   AvatarBadge,
@@ -23,11 +24,12 @@ import GroupChatModal from "../../GroupChatModal";
 import ProfileModal from "../../ProfileModal";
 import SideBarDrawer from "../../SideBarDrawer";
 const FriendListHeader = () => {
+
   const [search, setSearch] = useState("");
   const [userToken, setUserToken] = useState("");
   const user = useRecoilState(userState);
   useEffect(() => {
-    const details = JSON.parse(localStorage.getItem("chatie"));
+    const details = JSON.parse(Cookies.get("Chatie"));
     setUserToken(details.token);
   }, []);
   const handleSearch = () => {

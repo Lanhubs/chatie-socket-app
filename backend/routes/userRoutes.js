@@ -4,7 +4,7 @@ const { authorize } = require("../middlewares/authMiddleware")
 const { getAllUsersController, allChats } = require("../Controllers")
 const route = express.Router()
 
-route.post("/signup", upload, signupController )
+route.post("/signup", signupController )
 route.post("/login", loginController)
 route.route("/chats").get(allChats)
 route.route("/user").get(authorize, getAllUsersController)

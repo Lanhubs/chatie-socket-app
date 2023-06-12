@@ -1,27 +1,29 @@
-import React, { useState } from "react";
-import Input from "./Input";
+import React, { useEffect, useState } from "react";
+import Input, { fileUploaderHook } from "./";
 import { Box, Button, createStandaloneToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 const RegisterTab = () => {
   const [username, setusername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const { profilePic, FileUpload } = fileUploaderHook({
+    placeholder: "chose profile picture",
+  });
   const { toast, ToastContainer } = createStandaloneToast();
   const navigate = useNavigate();
 
   const signUpHandler = () => {
-    
     if (
       username === "" ||
       password === "" ||
       lastName === "" ||
       email === "" ||
-      firstName === ""
+      firstName === "" ||
+      profilePic === ""
     ) {
-      
       toast({
         description: "input fields cannot be empty",
         size: "md",
@@ -32,21 +34,45 @@ const RegisterTab = () => {
       });
     }
     const formData = {
-      firstName, password, email, lastName, username
-    }
-   
-    // formData.append("profilePic", profilePic);
-   
+      firstName,
+      password,
+      email,
+      lastName,
+      username,
+      profilePic,
+    };
 
-    fetch("http://localhost:5000/api/signup", {
+    fetch("/api/signup", {
       method: "POST",
       body: JSON.stringify(formData),
-      headers:{
-        "Content-Type": "application/json"
-      }
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.status === 2000) {
+          toast({
+            description: "successful redirecting...",
+            duration: 3000,
+            position: "top",
+            isClosable: true,
+            size: "md",
+            status: "success",
+          });
+          var details = JSON.stringify(data);
+          var expirydate = new Date();
+          expirydate = expirydate.getDate() + 3;
+          Cookies.set("Chatie", details, {
+            expires: 7,
+            sameSite: "strict",
+            secure: true,
+            domain: "http://localhost:5173",
+            path: "/"
+          });
+
+          navigate("/");
+        }
         if (data.status === 4000) {
           toast({
             description: data.error,
@@ -57,21 +83,10 @@ const RegisterTab = () => {
             status: "error",
           });
         }
-        if (data.status === 2000) {
-          toast({
-            description: "successful redirecting...",
-            duration: 3000,
-            position: "top",
-            isClosable: true,
-            size: "md",
-            status: "success",
-          });
-
-          localStorage.setItem("chatie", JSON.stringify(data.details));
-          navigate("/");
-        }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <Box w="full" display="flex" flexDir="column" gap="1rem" py="3rem">
@@ -107,13 +122,7 @@ const RegisterTab = () => {
         handleChange={setEmail}
       />
 
-      {/* <Input
-        placeholder=""
-        type="file"
-        label="profile pic"
-        name="profilePic"
-        handleChange={setProfilePic}
-      /> */}
+      <FileUpload />
       <Input
         placeholder="password"
         name="password"

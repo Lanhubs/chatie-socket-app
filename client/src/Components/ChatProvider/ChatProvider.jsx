@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ChatContext = createContext();
@@ -10,7 +11,7 @@ const ChatProvider = ({ children }) => {
   const [notification, setNotification] = useState();
   const [chats, setChats] = useState();
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("chatie"));
+    const userInfo = JSON.parse(Cookies.get("Chatie"));
     if (!userInfo) {
       setUser(null);
     }

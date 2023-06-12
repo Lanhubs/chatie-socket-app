@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import FriendListHeader from "./FriendListHeader";
 import Friends from "./Friends";
+
 const FriendList = () => {
   return (
     <Box
