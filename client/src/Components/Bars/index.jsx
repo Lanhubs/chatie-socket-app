@@ -1,6 +1,6 @@
-import { Avatar, Box, Flex, Image} from "@chakra-ui/react";
+import { Avatar, Box, Flex, Image, Link } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { NavLink, Link} from "react-router-dom";
+import { Link as NaviigationLink } from "react-router-dom";
 import userImg from "../../assets/user.png";
 
 import {
@@ -14,9 +14,9 @@ import {
 
 import ProfileModal from "../ProfileModal";
 import { useRecoilState } from "recoil";
-import { userState } from "../atoms";
+import { ChatState } from "../ChatProvider/ChatProvider";
 const Bars = () => {
- const user = useRecoilState(userState)
+  const { user, setChangeComponent } = ChatState();
 
   return (
     <Box
@@ -40,7 +40,7 @@ const Bars = () => {
           cursor="pointer"
           width="50px"
           display={{ base: "none", md: "block" }}
-          src={user ? user.profilePic : userImg}
+          src={user?.profilePic}
           overflow="hidden"
           borderRadius={50}
         />
@@ -50,24 +50,48 @@ const Bars = () => {
         alignItems={{ base: "center", md: "" }}
         h={{ base: "100%", md: "100%" }}
         flexDir={{ md: "column", base: "row" }}
-        gap={{base: "10%",md:"1rem"}}
+        gap={{ base: "10%", md: "1rem" }}
       >
         {barLinks.map((item, index) => (
-          <Box
-            padding={{ base: "10px", md: "" }}
-            key={index}
-            // as={Link}
-            fontSize={30}
-            color="rgba(255, 255, 255, 0.5)"
-            justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}
-            marginTop={{
-              base: "",
-              md: barLinks.length === index + 1 ? "auto" : "",
-            }}
-            // to={item.link}
-          >
-            {item.icon}
-          </Box>
+          <>
+            {/*  {index === 1 ? (
+              <>
+                <Box
+                  padding={{ base: "10px", md: "" }}
+                  key={index}
+                  onClick={() => console.log("hellow")}
+                  fontSize={30}
+                  color="rgba(255, 255, 255, 0.5)"
+                  justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}
+                  marginTop={{
+                    base: "",
+                    md: barLinks.length === index + 1 ? "auto" : "",
+                  }}
+                >
+                  {item.icon}
+                </Box>
+              </>
+            ) : ( */}
+            <Link
+              padding={{ base: "10px", md: "" }}
+              key={index}
+              fontSize={30}
+              color="rgba(255, 255, 255, 0.5)"
+              justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}
+              marginTop={{
+                base: "",
+                md: barLinks.length === index + 1 ? "auto" : "",
+              }}
+              onClick={() =>
+                item.name === "chats" ? setChangeComponent("chats") : ""
+              }
+              href={item.link}
+            >
+              {" "}
+              {item.icon}{" "}
+            </Link>
+            {/* )} */}
+          </>
         ))}
       </Box>
     </Box>
@@ -77,26 +101,32 @@ const Bars = () => {
 const barLinks = [
   {
     icon: <AiOutlineMessage />,
-    links: "/",
+    links: "#",
+    name: "chats",
   },
   {
     icon: <AiOutlineUser />,
-    link: "/",
+    link: "#",
+    name: "",
   },
   {
     icon: <AiOutlineUsergroupAdd />,
-    link: "/",
+    link: "#",
+    name: "",
   },
   {
     icon: <AiOutlineMail />,
-    link: "/",
+    link: "#",
+    name: "",
   },
   {
     icon: <AiOutlineSetting />,
-    link: "/",
+    name: "",
+    link: "#",
   },
   {
     icon: <AiOutlineLogout />,
+    name: "",
     link: "/authentication",
   },
 ];

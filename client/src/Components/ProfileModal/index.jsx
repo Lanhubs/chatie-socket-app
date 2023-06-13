@@ -13,8 +13,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import userImage from "../../assets/user.png";
+import { ChatState } from "../ChatProvider/ChatProvider";
 const ProfileModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {user } = ChatState()
   return (
     <>
       {children ? (
@@ -42,9 +44,12 @@ const ProfileModal = ({ children }) => {
             flexDir="column"
             alignItems="center"
             py="1rem"
+            textTransform="capitalize"
           >
-            <Avatar src={userImage} w="100px" h="100px"></Avatar>
-            <Text fontSize={20}> Jack Hallow</Text>
+            <Avatar src={user?.profilePic} w="100px" h="100px"></Avatar>
+            <Text fontSize={20} my="10px"> nickname:  {user?.nickname}</Text>
+            <Text fontSize={20} my="10px"> Full name:  {user?.firstname} {" "} {user?.lastName}</Text>
+
           </ModalBody>
         </ModalContent>
       </Modal>

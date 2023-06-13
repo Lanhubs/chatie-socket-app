@@ -2,21 +2,27 @@ import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import FriendListHeader from "./FriendListHeader";
 import Friends from "./Friends";
+import Chats from "./Chats";
+
+import { ChatState } from "../ChatProvider/ChatProvider";
 
 const FriendList = () => {
+  const { changeComponent } = ChatState();
   return (
     <Box
-    display="flex"
-    flexDirection="column"
-    gap="1rem"
-      ml={{ base: 0, md: "5%" }}
+      display="flex"
+      flexDirection="column"
+      gap="1rem"
+      ml={{ base: 0, md: "7%", lg: "5%" }}
       w={{ base: "100vw", md: "30%" }}
-      h={{ base: "100%", md: "100vh" }}
+      flex={1}
+      alignItems="flex-start"
+      justifyContent="flex-start"
       bg="rgba(0, 0, 0, 0.7)"
       border={0}
     >
       <FriendListHeader />
-      <Friends />
+      {changeComponent === "chats" ? <Chats /> : <Friends />}
     </Box>
   );
 };

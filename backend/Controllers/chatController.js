@@ -10,7 +10,7 @@ const accessChats = async (req, res) => {
   }
   var isChat = await chatsModel
     .find({
-      isGroupChat: false,
+      isGroupChat: false, 
       $and: [
         { users: { $elemMatch: { $eq: req.ueser._id } } },
         {
@@ -27,7 +27,7 @@ const accessChats = async (req, res) => {
 
   isChat = await usersModel.populate(isChat, {
     path: "latestMessage.sender",
-    select: "username email",
+    select: "nickname email",
   });
   if (isChat.lenght > 0) {
     res.json(isChat[0]);
@@ -58,9 +58,10 @@ const fetchChats = async (req, res) => {
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
       .then(async (results) => {
+        console.log(results)
         results = await usersModel.populate(results, {
           path: "latestMessage.sender",
-          select: "username  email",
+          select: "nickname  email",
         });
         res.status(200).send(results);
       });
@@ -72,7 +73,7 @@ const createGroupChat = async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "please all the fields" });
   }
-  var users = JSON.parse(req.body.user);
+  var users =req.body.user
   if (users.length < 2) {
     res.status(400).send("More than 2 two users are required to make a group");
   }

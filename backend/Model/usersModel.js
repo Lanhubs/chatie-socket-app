@@ -5,10 +5,10 @@ const {
 const { mongoose } = require("./db/dbConnection");
 const usersSchema = new mongoose.Schema({
   _id: String,
-  username: {
+  nickname: {
     type: String,
     required: true,
-    unique: [true, "username already in use"],
+    unique: [true, "nickname already in use"],
   },
   email: {
     type: String,
@@ -33,6 +33,12 @@ const usersSchema = new mongoose.Schema({
   },
 });
 
+usersSchema.path("email").validate(async (value) => {
+  const countUsername = await mongoose.models.Users.countDocuments({
+    nickname: value,
+  });
+  return !countUsername;
+}, "nickname already in use");
 usersSchema.path("email").validate(async (value) => {
   const countEmail = await mongoose.models.Users.countDocuments({
     email: value,

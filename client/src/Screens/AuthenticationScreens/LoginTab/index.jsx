@@ -8,7 +8,7 @@ import {
   createStandaloneToast,
   Spinner,
 } from "@chakra-ui/react";
-import Cookies from "js-cookie";
+import cookie from "react-cookies";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const LoginTab = () => {
@@ -46,17 +46,17 @@ const LoginTab = () => {
             size: "md",
             status: "success",
           });
-          var details = JSON.stringify(data);
+          var details = JSON.stringify(data.token);
           var expirydate = new Date();
           expirydate = expirydate.getDate() + 3;
-          Cookies.set("Chatie", details, {
-            expires: 7,
-            sameSite: "strict",
-            secure: true,
-            domain: "http://localhost:5173",
-            path: "/"
+          cookie.save("Chatie", data.token, {
+            expires: new Date(Date.now() * 60 * 60 * 1000),
+            // sameSite: "strict",
+            // secure: true,
+           
+            // path: "/"
           });
-          // navigate("/");
+          navigate("/");
         }
         if (data.status === 4000) {
           toast({
@@ -73,7 +73,7 @@ const LoginTab = () => {
     setRequesting(false);
   };
   React.useEffect(() => {
-    Cookies.remove("Chatie");
+   cookie.remove("Chatie");
   }, []);
   return (
     <Box w="full" display="flex" flexDir="column" py="3rem" gap="2rem">

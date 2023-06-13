@@ -8,8 +8,7 @@ const ChatMessage = ({ marginLeft, msgDir, positionTime, sendersColor }) => {
         display="flex"
         alignItems="center"
         flexDir={msgDir}
-        w={{ base: "45%", md: "20px" }}
-        marginLeft={marginLeft}
+        w={{ base: "45%", md: "20px" }}        marginLeft={marginLeft}
       >
         <Avatar src={userImg} />
         <Flex flexDir="column">
@@ -22,7 +21,7 @@ const ChatMessage = ({ marginLeft, msgDir, positionTime, sendersColor }) => {
           >
             hey how far
           </Text>
-          <Text ml={positionTime}>20 mins ago</Text>
+          <Text my="1rem" ml={positionTime}>20 mins ago</Text>
         </Flex>
       </Box>
     </>

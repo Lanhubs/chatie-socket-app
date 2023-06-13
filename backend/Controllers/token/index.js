@@ -1,6 +1,8 @@
-const fs = require("fs");
-const path = require * "path";
 const jwt = require("jsonwebtoken");
 
-const generateToken = (id) => jwt.sign({ id }, "chatie", { expiresIn: "20d" });
-module.exports = generateToken
+exports.generateToken = (id) => {
+  console.log(id)
+  return jwt.sign({ user: id }, "chatie", {
+    expiresIn: 1000 * 60 * 60 * 24,
+  });
+};

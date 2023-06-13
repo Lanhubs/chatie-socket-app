@@ -5,11 +5,11 @@ import ChatScreen from "./Screens/ChatsScreen";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AuthScreen from "./Screens/AuthenticationScreens/AuthScreen";
 import { RecoilRoot } from "recoil";
-import Cookies from "js-cookie";
+import cookie from "react-cookies";
 
 function App() {
   /* React.useEffect(()=>{
-    Cookies.set("Chatie", "")
+    cookie.save("Chatie", "")
   }, []) */
   return (
     <ChakraProvider>

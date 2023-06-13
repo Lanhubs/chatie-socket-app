@@ -11,11 +11,11 @@ import React from "react";
 import { useEffect } from "react";
 import LoginTab from "../LoginTab";
 import RegisterTab from "../RegisterTab/RegisterTab";
-import Cookies from "js-cookie";
+import cookie from "react-cookies";
 
 const AuthScreen = () => {
   useEffect(()=>{
-    Cookies.remove("Chatie")
+    cookie.remove("Chatie")
   },[])
   return (
     <Box

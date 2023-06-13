@@ -35,7 +35,7 @@ import {
             h="50px"
           />
           <Box>
-            <Text fontSize={20} letterSpacing={1}> {user.username}</Text>
+            <Text fontSize={20} letterSpacing={1}> {user.nickname}</Text>
             <Text>{user.firstName + user.lastName}</Text>
           </Box>
           <Box

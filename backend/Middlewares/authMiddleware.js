@@ -1,15 +1,16 @@
 const jwt = require("jsonwebtoken");
 const usersModel = require("../Model/usersModel");
-const authorize = async (req, res, next) => {
+exports.authorize = async (req, res, next) => {
   var token;
   if (
     req.headers.authorization &&
-    req.headers.authorization.startswith("Bearer")
+    req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+
+    const decodedToken = jwt.verify(token, "chatie");
     req.user = await usersModel
-      .findById({ _id: decodedToken._id })
+      .findById({ _id: decodedToken.user })
       .select("-password");
     next();
   }
@@ -17,5 +18,3 @@ const authorize = async (req, res, next) => {
     res.status(401).send("invalid or unauthorized token");
   }
 };
-
-module.exports = { authorize };

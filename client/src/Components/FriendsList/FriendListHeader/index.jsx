@@ -4,7 +4,7 @@ import {
   Search2Icon,
   SearchIcon,
 } from "@chakra-ui/icons";
-import Cookies from "js-cookie";
+import cookie from "react-cookies";
 import {
   Avatar,
   AvatarBadge,
@@ -15,25 +15,24 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
 import userImg from "../../../assets/user.png";
-import { userState } from "../../atoms";
 import { ChatState } from "../../ChatProvider/ChatProvider";
 
 import GroupChatModal from "../../GroupChatModal";
 import ProfileModal from "../../ProfileModal";
 import SideBarDrawer from "../../SideBarDrawer";
 const FriendListHeader = () => {
-
   const [search, setSearch] = useState("");
   const [userToken, setUserToken] = useState("");
-  const user = useRecoilState(userState);
+  const [hideCreateGroupBtn, setHideCreateGroupBtn] = useState(false);
+  const { user } = ChatState();
   useEffect(() => {
-    const details = JSON.parse(Cookies.get("Chatie"));
-    setUserToken(details.token);
+    var cook = cookie.load("Chatie");
+    const token = cook;
+    setUserToken(token);
   }, []);
-  const handleSearch = () => {
-    fetch(`https://localhost:5000/api/user?search=${search}`, {
+  const handleSearch = (e) => {
+    fetch(`https://localhost:5000/api/user?search=${e.target.value}`, {
       Authorization: `Bearer ${userToken}`,
       headers: {
         "Content-Type": "application/json",
@@ -46,13 +45,20 @@ const FriendListHeader = () => {
       });
   };
   return (
-    <Box w="full" p="10px" display="flex" flexDirection="column" gap="1rem">
+    <Box
+      w="full"
+      p="10px"
+      h="15%"
+      display="flex"
+      flexDirection="column"
+      gap="1rem"
+    >
       <Flex alignItems="center" justifyContent="space-between" px="10px">
         <Text fontSize={25}>Chatie</Text>
         <ProfileModal>
           <Avatar
             cursor="pointer"
-            src={userImg}
+            src={user?.profilePic}
             display={{ base: "flex", md: "none" }}
           >
             <AvatarBadge boxSize="10px" />
@@ -86,7 +92,8 @@ const FriendListHeader = () => {
               marginLeft: "20px",
               color: "rgba(255, 255, 255, 0.5)",
             }}
-            onInput={(e) => handleSearch(e)}
+            onChange={(e) => handleSearch(e)}
+            onFocus={() => setHideCreateGroupBtn(true)}
             placeholder="search"
             outlineOffset={0}
             border={0}
@@ -109,13 +116,16 @@ const FriendListHeader = () => {
         </SideBarDrawer>
         <GroupChatModal>
           <Button
+            display={hideCreateGroupBtn ? "flex" : "none"}
             bg="rgba(0, 0, 0, 0.5)"
             color="#fff"
             textTransform={"capitalize"}
             fontSize={18}
             h="50px"
           >
-            <Text display={{ base: "none", md: "flex" }}>new groupchat</Text>{" "}
+            <Text display={{ base: "none", md: "none", lg: "flex" }}>
+              new groupchat
+            </Text>
             <AddIcon ml={{ base: "", md: "10px" }} fontSize={16} />
           </Button>
         </GroupChatModal>

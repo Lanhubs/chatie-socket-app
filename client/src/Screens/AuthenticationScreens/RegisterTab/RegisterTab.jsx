@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Input, { fileUploaderHook } from "./";
-import { Box, Button, createStandaloneToast } from "@chakra-ui/react";
+import { Box, Button, Text, createStandaloneToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import cookie from "react-cookies";
 const RegisterTab = () => {
-  const [username, setusername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [statusMsg, setStatusMsg] = React.useState();
   const { profilePic, FileUpload } = fileUploaderHook({
     placeholder: "chose profile picture",
   });
@@ -17,7 +18,7 @@ const RegisterTab = () => {
 
   const signUpHandler = () => {
     if (
-      username === "" ||
+      nickname === "" ||
       password === "" ||
       lastName === "" ||
       email === "" ||
@@ -38,7 +39,7 @@ const RegisterTab = () => {
       password,
       email,
       lastName,
-      username,
+      nickname,
       profilePic,
     };
 
@@ -52,35 +53,41 @@ const RegisterTab = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 2000) {
-          toast({
+          console.log(data);
+          setStatusMsg({
+            status: false,
+            msg: "successful redirecting...",
+          });
+          /*  toast({
             description: "successful redirecting...",
             duration: 3000,
             position: "top",
             isClosable: true,
             size: "md",
             status: "success",
-          });
+          }); */
           var details = JSON.stringify(data);
           var expirydate = new Date();
           expirydate = expirydate.getDate() + 3;
-          Cookies.set("Chatie", details, {
-            expires: 7,
+          cookie.save("Chatie", data.token, {
+            expires: new Date(Date.now() * 60 * 60 * 1000),
             sameSite: "strict",
             secure: true,
-            domain: "http://localhost:5173",
-            path: "/"
           });
-
           navigate("/");
         }
         if (data.status === 4000) {
-          toast({
+          /* toast({
             description: data.error,
             duration: 3000,
             isClosable: true,
             position: "top",
             size: "md",
             status: "error",
+          }); */
+          setStatusMsg({
+            status: true,
+            msg: data.error,
           });
         }
       })
@@ -90,7 +97,21 @@ const RegisterTab = () => {
   };
   return (
     <Box w="full" display="flex" flexDir="column" gap="1rem" py="3rem">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
+      {statusMsg && (
+        <Text
+          color="white"
+          frontSize={18}
+          fontWeight="600"
+          p="10px"
+          w="full"
+          rounded="md"
+          shadow="lg"
+          bg={statusMsg.status ? "red.500" : "green.500"}
+        >
+          {statusMsg.msg}
+        </Text>
+      )}
       <Input
         placeholder="first name:"
         label="first name:"
@@ -108,11 +129,11 @@ const RegisterTab = () => {
       />
 
       <Input
-        handleChange={setusername}
+        handleChange={setNickname}
         placeholder="walker"
         type="text"
-        name="username"
-        label="username:"
+        name="nickname"
+        label="nickname:"
       />
       <Input
         type="email"

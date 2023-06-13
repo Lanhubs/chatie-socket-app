@@ -5,31 +5,41 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../Components/atoms";
 import Bars from "../../Components/Bars/";
-import { ChatState } from "../../Components/ChatProvider/ChatProvider";
+import {
+  ChatState,
+  ChatProvider,
+} from "../../Components/ChatProvider/ChatProvider";
 import Chats from "../../Components/Conversation/index";
 import FriendList from "../../Components/FriendsList";
-import Cookies from "js-cookie";
+import cookie from "react-cookies";
 
 const ChatScreen = () => {
-  const setUser = useSetRecoilState(userState)
+  const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
   useEffect(() => {
-    const userDetails = Cookies.get("Chatie")
-    const data = JSON.parse(userDetails)
-    if(!userDetails || !data){
-      navigate("/authentication")
+    const userDetails = cookie.load("Chatie");
+    const data = userDetails
+  
+    if (!userDetails || !data) {
+      navigate("/authentication");
     }
-    setUser(data.details)
-
+    setUser(data.details);
   }, []);
   return (
-    <Box w="100vw" h="100vh" p={0} m={0}>
-      <Bars />
-      <Box w="100vw" h="full" display={{ base: "", md: "flex" }} height="100%">
-        <FriendList />
-        <Chats />
+    <ChatProvider>
+      <Box w="100vw" h="100vh" p={0} m={0}>
+        <Bars />
+        <Box
+          w="100vw"
+          h="full"
+          display={{ base: "", md: "flex" }}
+          height="100%"
+        >
+          <FriendList />
+          <Chats />
+        </Box>
       </Box>
-    </Box>
+    </ChatProvider>
   );
 };
 
