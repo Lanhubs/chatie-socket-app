@@ -11,7 +11,7 @@ const {
 const route = express.Router();
 
 // access chats
-route.route("/acccessChats").get(authorize, accessChats);
+route.route("/acccessChats").post(authorize, accessChats);
 // fetch chats
 route.route("/getchats").get(authorize, fetchChats);
 // create group

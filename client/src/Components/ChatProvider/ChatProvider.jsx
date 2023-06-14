@@ -16,7 +16,6 @@ export const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState({});
   const [user, setUser] = useState();
   const [search, setSearch] = useState();
-
   const [notification, setNotification] = useState();
   const [chats, setChats] = useState();
   const [friends, setFriends] = useState();

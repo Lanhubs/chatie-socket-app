@@ -11,9 +11,9 @@ import chatImg from "../../assets/user.png";
 import cookie from "react-cookies";
 import { ChatState } from "../ChatProvider/ChatProvider";
 const Friends = ({ clickHandler }) => {
-  const [friends, setFriends,] = React.useState();
-  const [chats, setChats,] = React.useState();
-
+  const [friends, setFriends] = React.useState();
+  const [chats, setChats] = React.useState();
+  const { setSelectedChat } = ChatState();
   React.useEffect(() => {
     const token = cookie.load("Chatie");
     fetch("/api/users", {
@@ -24,12 +24,32 @@ const Friends = ({ clickHandler }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 2000) {
-         
           setFriends(data.users);
         }
       })
       .catch((e) => console.log(e));
   }, []);
+  const accessChat = (userId) => {
+    
+    const token = cookie.load("Chatie");
+    fetch("/api/chat/acccessChats", {
+      method: "POST",
+      body: JSON.stringify({ userId }),
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // setSelectedChat(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <Box
       w="100%"
@@ -51,6 +71,9 @@ const Friends = ({ clickHandler }) => {
             alignItems="center"
             height="70px"
             key={idx}
+            onClick={() => {
+              accessChat(item._id);
+            }}
             gap="10px"
             px="1rem"
           >
@@ -64,8 +87,7 @@ const Friends = ({ clickHandler }) => {
             />
             <Box>
               <Text fontSize={20} letterSpacing={1}>
-                {item?.firstName}{" "}
-                {item?.lastName}
+                {item?.firstName} {item?.lastName}
               </Text>
               <Text>lorem ipsum</Text>
             </Box>

@@ -14,9 +14,9 @@ import {
 import React from "react";
 import userImage from "../../assets/user.png";
 import { ChatState } from "../ChatProvider/ChatProvider";
-const ProfileModal = ({ children }) => {
+const ProfileModal = ({ children, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {user } = ChatState()
+
   return (
     <>
       {children ? (

@@ -1,18 +1,20 @@
+const { handleErrorMsg } = require("../Middlewares/errorHandler");
 const chatsModel = require("../Model/chatsModel");
 const messagesModel = require("../Model/messagesModel");
 const usersModel = require("../Model/usersModel");
 
 const accessChats = async (req, res) => {
   const { userId } = req.body;
+  
   if (!userId) {
     console.log("userId param not sent with the request");
     res.sendStatus(400);
   }
   var isChat = await chatsModel
     .find({
-      isGroupChat: false, 
+      isGroupChat: false,
       $and: [
-        { users: { $elemMatch: { $eq: req.ueser._id } } },
+        { users: { $elemMatch: { $eq: req.user._id } } },
         {
           users: {
             $elemMatch: {
@@ -23,13 +25,13 @@ const accessChats = async (req, res) => {
       ],
     })
     .populate("users", "-password")
-    .populate("latestMessage");
-
+    .populate("latestMessage")
+   
   isChat = await usersModel.populate(isChat, {
     path: "latestMessage.sender",
     select: "nickname email",
   });
-  if (isChat.lenght > 0) {
+  if (isChat.length > 0) {
     res.json(isChat[0]);
   } else {
     var chatData = {
@@ -42,9 +44,9 @@ const accessChats = async (req, res) => {
       const fullChat = await chatsModel
         .findOne({ _id: createdChat._id })
         .populate("users", "-password");
-      res.status(200).send(fullChat);
+      res.send({ chats: fullChat });
     } catch (e) {
-      throw Error(e.message);
+      res.json({ error: handleErrorMsg(e), status: 4000 });
     }
   }
 };
@@ -58,22 +60,22 @@ const fetchChats = async (req, res) => {
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
       .then(async (results) => {
-        console.log(results)
+        console.log(results);
         results = await usersModel.populate(results, {
           path: "latestMessage.sender",
           select: "nickname  email",
         });
-        res.status(200).send(results);
+        res.json({ results });
       });
   } catch (error) {
-    res.status(400).send(error);
+    res.send({ error });
   }
 };
 const createGroupChat = async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "please all the fields" });
   }
-  var users =req.body.user
+  var users = req.body.user;
   if (users.length < 2) {
     res.status(400).send("More than 2 two users are required to make a group");
   }

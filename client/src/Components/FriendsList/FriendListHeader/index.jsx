@@ -55,7 +55,7 @@ const FriendListHeader = () => {
     >
       <Flex alignItems="center" justifyContent="space-between" px="10px">
         <Text fontSize={25}>Chatie</Text>
-        <ProfileModal>
+        <ProfileModal user={user}>
           <Avatar
             cursor="pointer"
             src={user?.profilePic}

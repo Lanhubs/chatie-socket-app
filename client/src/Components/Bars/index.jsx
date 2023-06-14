@@ -35,7 +35,7 @@ const Bars = () => {
       flexDir={{ md: "column", base: "row" }}
       rowGap={"2rem"}
     >
-      <ProfileModal>
+      <ProfileModal user={user}>
         <Avatar
           cursor="pointer"
           width="50px"
