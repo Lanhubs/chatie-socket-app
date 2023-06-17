@@ -15,6 +15,7 @@ const index = ({ children }) => {
       <Modal></Modal>
     </>
   );
+  
 };
 
 export default index;

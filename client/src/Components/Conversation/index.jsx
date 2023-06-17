@@ -6,7 +6,7 @@ import ConversationHeader from "./ConversationHeader";
 
 const Chats = () => {
   return (
-    <Box w={{ base: "100vw", md: "55%", lg: "65%" }} bg="#fff" h="100vh">
+    <Box display={{base: "none", md: "block"}} w={{ base: "100vw", md: "55%", lg: "65%" }} bg="#fff" h="100vh">
       <ConversationHeader />
       <Box w="full" display="block" p="1rem" height="82%">
         <ChatMessage

@@ -10,16 +10,17 @@ const ChatContext = createContext({
   friends: [],
   hideCreateGroupBtn: false,
   changeComponent: null,
+  chatLoading: false,
 });
 
 export const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState({});
   const [user, setUser] = useState();
-  const [search, setSearch] = useState();
+  const [searchResults, setSearchResults] = useState();
   const [notification, setNotification] = useState();
   const [chats, setChats] = useState();
   const [friends, setFriends] = useState();
-
+  const [chatLoading, setChatLoading] = React.useState(false);
   const [changeComponent, setChangeComponent] = useState();
   const navigate = useNavigate();
   useEffect(() => {
@@ -47,18 +48,19 @@ export const ChatProvider = ({ children }) => {
         user,
         setUser,
         setSelectedChat,
-        search,
-        setSearch,
+        searchResults,
+        setSearchResults,
         selectedChat,
         chats,
         setFriends,
         friends,
-
         setChats,
         notification,
         setNotification,
         changeComponent,
         setChangeComponent,
+        chatLoading,
+        setChatLoading,
       }}
     >
       {children}

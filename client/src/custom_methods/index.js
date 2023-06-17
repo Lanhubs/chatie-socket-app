@@ -4,3 +4,4 @@ function imageGetter(name) {
 
 
  export default imageGetter
+ export const FLEX = "flex"||"-ms-flexbox"||"-webkit-flex"

@@ -13,7 +13,8 @@ import { ChatState } from "../ChatProvider/ChatProvider";
 const Friends = ({ clickHandler }) => {
   const [friends, setFriends] = React.useState();
   const [chats, setChats] = React.useState();
-  const { setSelectedChat } = ChatState();
+  const { setSelectedChat, searchResults, setSearchResults, chatLoading } =
+    ChatState();
   React.useEffect(() => {
     const token = cookie.load("Chatie");
     fetch("/api/users", {
@@ -24,13 +25,12 @@ const Friends = ({ clickHandler }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 2000) {
-          setFriends(data.users);
+          setSearchResults(data.users);
         }
       })
       .catch((e) => console.log(e));
   }, []);
   const accessChat = (userId) => {
-    
     const token = cookie.load("Chatie");
     fetch("/api/chat/acccessChats", {
       method: "POST",
@@ -44,7 +44,7 @@ const Friends = ({ clickHandler }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        // setSelectedChat(data);
+        setSelectedChat(data);
       })
       .catch((e) => {
         console.log(e);
@@ -54,54 +54,62 @@ const Friends = ({ clickHandler }) => {
     <Box
       w="100%"
       flex={1}
+      height="100%"
       bg="unset"
+      pos="relative"
       display="flex"
       flexDirection="column"
       gap="1rem"
       onClick={clickHandler}
     >
-      {friends?.map((item, idx) => {
-        return (
-          <Box
-            w="100%"
-            _hover={{ bg: "rgba(255, 255, 255, 0.3)" }}
-            display="flex"
-            color="#f1f1f1"
-            alignSelf={"flex-start"}
-            alignItems="center"
-            height="70px"
-            key={idx}
-            onClick={() => {
-              accessChat(item._id);
-            }}
-            gap="10px"
-            px="1rem"
-          >
-            <Avatar
-              bgImage=""
-              w="50px"
-              bg="rgba(0, 0, 0, 0.5)"
-              borderRadius={50}
-              src={item?.profilePic}
-              h="50px"
-            />
-            <Box>
-              <Text fontSize={20} letterSpacing={1}>
-                {item?.firstName} {item?.lastName}
-              </Text>
-              <Text>lorem ipsum</Text>
-            </Box>
-            <Box
-              justifySelf="flex-end"
-              ml="auto"
-              bg="green.200"
-              width="10px"
-              height="10px"
-              rounded="full"
-            />
-          </Box>
-        );
-      })}
+      {chatLoading ? (
+        <SearchLoader />
+      ) : (
+        <>
+          {searchResults?.map((item, idx) => {
+            return (
+              <Box
+                w="100%"
+                _hover={{ bg: "rgba(255, 255, 255, 0.3)" }}
+                display="flex"
+                color="#f1f1f1"
+                alignSelf={"flex-start"}
+                alignItems="center"
+                height="70px"
+                key={idx}
+                onClick={() => {
+                  accessChat(item._id);
+                }}
+                gap="10px"
+                px="1rem"
+              >
+                <Avatar
+                  bgImage=""
+                  w="50px"
+                  bg="rgba(0, 0, 0, 0.5)"
+                  borderRadius={50}
+                  src={item?.profilePic}
+                  h="50px"
+                />
+                <Box>
+                  <Text fontSize={20} letterSpacing={1}>
+                    {item?.firstName} {item?.lastName}
+                  </Text>
+                  <Text>lorem ipsum</Text>
+                </Box>
+                <Box
+                  justifySelf="flex-end"
+                  ml="auto"
+                  bg="green.200"
+                  width="10px"
+                  height="10px"
+                  rounded="full"
+                />
+              </Box>
+            );
+          })}
+        </>
+      )}
     </Box>
   );
 };

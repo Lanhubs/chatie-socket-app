@@ -19,6 +19,7 @@ exports.getAllUsersController = async (req, res) => {
       .select("-password");
 
     if (docs) {
+      console.log(docs)
       res.json({ users: docs, status: 2000 });
     }
   } catch (e) {

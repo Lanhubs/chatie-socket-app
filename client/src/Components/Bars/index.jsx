@@ -13,7 +13,6 @@ import {
 } from "react-icons/ai";
 
 import ProfileModal from "../ProfileModal";
-import { useRecoilState } from "recoil";
 import { ChatState } from "../ChatProvider/ChatProvider";
 const Bars = () => {
   const { user, setChangeComponent } = ChatState();
@@ -53,25 +52,7 @@ const Bars = () => {
         gap={{ base: "10%", md: "1rem" }}
       >
         {barLinks.map((item, index) => (
-          <>
-            {/*  {index === 1 ? (
-              <>
-                <Box
-                  padding={{ base: "10px", md: "" }}
-                  key={index}
-                  onClick={() => console.log("hellow")}
-                  fontSize={30}
-                  color="rgba(255, 255, 255, 0.5)"
-                  justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}
-                  marginTop={{
-                    base: "",
-                    md: barLinks.length === index + 1 ? "auto" : "",
-                  }}
-                >
-                  {item.icon}
-                </Box>
-              </>
-            ) : ( */}
+          
             <Link
               padding={{ base: "10px", md: "" }}
               key={index}
@@ -90,8 +71,8 @@ const Bars = () => {
               {" "}
               {item.icon}{" "}
             </Link>
-            {/* )} */}
-          </>
+          
+       
         ))}
       </Box>
     </Box>
