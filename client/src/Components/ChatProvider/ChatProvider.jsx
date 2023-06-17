@@ -36,7 +36,7 @@ export const ChatProvider = ({ children }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+        
           if (data.status === 4000) navigate("/authentication");
           setUser(data.details);
         });

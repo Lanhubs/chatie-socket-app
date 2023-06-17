@@ -1,6 +1,8 @@
 const usersModel = require("../Model/usersModel");
 
-exports.allChats = async (req, res) => {};
+exports.allChats = async (req, res) => {
+  
+};
 exports.getAllUsersController = async (req, res) => {
   try {
     const searchKeyword = req.query.search
@@ -19,7 +21,6 @@ exports.getAllUsersController = async (req, res) => {
       .select("-password");
 
     if (docs) {
-      console.log(docs)
       res.json({ users: docs, status: 2000 });
     }
   } catch (e) {

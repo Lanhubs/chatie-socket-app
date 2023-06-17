@@ -10,13 +10,13 @@ const chatsSchema = new mongoose.Schema(
   {
     chatsName: { type: String, trim: true },
     isGroupChat: { type: Boolean, default: false },
-    users: [{ type: mongoose.Schema.Types.UUID, ref: "Users" }],
+    users: [{ type: mongoose.Schema.Types.String, ref: "Users" }],
     latestMessage: {
-      type: mongoose.Schema.Types.UUID,
-      ref: "Message",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Messages",
     },
     groupAdmin: {
-      type: mongoose.Schema.Types.UUID,
+      type: mongoose.Schema.Types.String,
       ref: "Users",
     },
   },

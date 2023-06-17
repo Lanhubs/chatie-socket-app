@@ -15,18 +15,19 @@ import {
 import ProfileModal from "../ProfileModal";
 import { ChatState } from "../ChatProvider/ChatProvider";
 const Bars = () => {
-  const { user, setChangeComponent } = ChatState();
+  const { user, setChangeComponent, changeComponent } = ChatState();
 
   return (
     <Box
       border={0}
+
       w={{ base: "100vw", md: "7%", lg: "5%" }}
       h={{ md: "100vh", base: "7%" }}
       bg="rgba(0, 0, 0, 0.8)"
       p={{ base: 0, md: "3rem 1rem" }}
       pos="fixed"
       m={0}
-      display="flex"
+      display={{base:changeComponent === "messaging"?"none":"flex",md :"flex"}}
       top={{ md: 0, base: "" }}
       left={0}
       bottom={{ base: 0, md: "" }}
@@ -49,14 +50,17 @@ const Bars = () => {
         alignItems={{ base: "center", md: "" }}
         h={{ base: "100%", md: "100%" }}
         flexDir={{ md: "column", base: "row" }}
-        gap={{ base: "10%", md: "1rem" }}
+        // bg="green.100" 
+        flex={{base: 1, md: ""}}
+        justifyContent={{base: "space-evenly", md: ""}}
+        gap={{ base: "", md: "1rem" }}
       >
         {barLinks.map((item, index) => (
           
             <Link
               padding={{ base: "10px", md: "" }}
               key={index}
-              fontSize={30}
+              fontSize={{base: 25, md:30}}
               color="rgba(255, 255, 255, 0.5)"
               justifySelf={barLinks.length === index + 1 ? "flex-end" : ""}
               marginTop={{

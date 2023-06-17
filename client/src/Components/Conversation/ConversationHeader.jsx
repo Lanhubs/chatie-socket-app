@@ -1,4 +1,4 @@
-import { Search2Icon } from "@chakra-ui/icons";
+import { ArrowBackIcon, Search2Icon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -24,7 +24,7 @@ const ConversationHeader = () => {
       justifyContent="space-between"
     >
       <Text>
-        Alan Walker <span></span>
+      <Button p="1rem" d={{base: "flex", md: "none"}} ><ArrowBackIcon size={25}/></Button> Alan Walker 
       </Text>
       <Flex alignItems="center" gap="1rem" >
         <Button outlineColor={0} outlineOffset="0">

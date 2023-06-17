@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
   Button,
+  Input,
+  InputGroup,
   Modal,
   ModalBody,
   ModalContent,
@@ -27,7 +29,14 @@ const GroupChatModal = ({ children }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create group chat</ModalHeader>
-          <ModalBody></ModalBody>
+          <ModalBody>
+          <InputGroup borderColor="cyan.400" border="1.7px solid" rounded="md">
+          <Input outline={0} placeholder="group name" />
+          <Button>
+            Create
+          </Button>
+          </InputGroup>  
+          </ModalBody>
           <ModalFooter>
             <Button onClick={onClose} mr={3} colorScheme="cyan">
               close

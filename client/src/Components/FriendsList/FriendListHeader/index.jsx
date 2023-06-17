@@ -31,6 +31,7 @@ const FriendListHeader = () => {
   const { toast, ToastContainer } = createStandaloneToast();
   const { user, setChatLoading, setSearchResults } = ChatState();
   useEffect(() => {
+    
     var cook = cookie.load("Chatie");
     const token = cook;
     setUserToken(token);

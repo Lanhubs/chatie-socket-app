@@ -10,12 +10,14 @@ const FriendList = () => {
   const { changeComponent } = ChatState();
   return (
     <Box
-      display="flex"
+      display={{base: changeComponent ==="messaging"? "none": "flex", md: "flex"}}
+
       flexDirection="column"
       gap="1rem"
       ml={{ base: 0, md: "7%", lg: "5%" }}
       w={{ base: "100vw", md: "30%" }}
-      flex={1}
+      // flex={1}
+      height="inherit"
       alignItems="flex-start"
       justifyContent="flex-start"
       bg="rgba(0, 0, 0, 0.7)"

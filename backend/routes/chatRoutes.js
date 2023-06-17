@@ -1,5 +1,4 @@
 const express = require("express");
-const { authorize } = require("../middlewares/authMiddleware");
 const {
   accessChats,
   createGroupChat,
@@ -8,10 +7,11 @@ const {
   removeFromGroupChat,
   addToGroup,
 } = require("../Controllers/chatController");
+const { authorize } = require("../Middlewares/authMiddleware");
 const route = express.Router();
 
 // access chats
-route.route("/acccessChats").post(authorize, accessChats);
+route.route("/acccessChats").post(authorize, accessChats).delete(authorize, removeFromGroupChat);
 // fetch chats
 route.route("/getchats").get(authorize, fetchChats);
 // create group
@@ -21,7 +21,5 @@ route.route("/creategroup").post(authorize, createGroupChat);
 route.route("/editgroup").put(authorize, renameGroupChat);
 route.route("/addtogroup").put(authorize, addToGroup);
 
-// remove from group
-route.route("/acccessChats").delete(authorize, removeFromGroupChat);
 
 module.exports = route;

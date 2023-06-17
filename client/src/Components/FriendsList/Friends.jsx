@@ -7,13 +7,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
+
 import chatImg from "../../assets/user.png";
 import cookie from "react-cookies";
 import { ChatState } from "../ChatProvider/ChatProvider";
 const Friends = ({ clickHandler }) => {
   const [friends, setFriends] = React.useState();
   const [chats, setChats] = React.useState();
-  const { setSelectedChat, searchResults, setSearchResults, chatLoading } =
+  const { setSelectedChat, searchResults, setSearchResults, chatLoading, setChangeComponent } =
     ChatState();
   React.useEffect(() => {
     const token = cookie.load("Chatie");
@@ -43,7 +44,6 @@ const Friends = ({ clickHandler }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setSelectedChat(data);
       })
       .catch((e) => {
@@ -79,6 +79,7 @@ const Friends = ({ clickHandler }) => {
                 key={idx}
                 onClick={() => {
                   accessChat(item._id);
+                  setChangeComponent("messaging")
                 }}
                 gap="10px"
                 px="1rem"

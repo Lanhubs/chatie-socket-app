@@ -1,8 +1,8 @@
 
 const express = require("express");
 const { getUserDetails, getAllUsersController, allChats } = require("../Controllers/usercontroller");
-const { authorize } = require("../middlewares/authMiddleware");
 const { multiPost, signupController, loginController } = require("../Controllers/AuthControllers");
+const { authorize } = require("../Middlewares/authMiddleware");
 const route = express.Router();
 
 route.post("/signup", signupController);

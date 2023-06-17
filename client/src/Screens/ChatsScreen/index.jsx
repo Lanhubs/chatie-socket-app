@@ -31,9 +31,9 @@ const ChatScreen = () => {
         <Bars />
         <Box
           w="100vw"
-          h="full"
           display={{ base: "", md: "flex" }}
-          height="100%"
+          height="inherit"
+          h="inherit"
         >
           <FriendList />
           <Chats />
